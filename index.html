@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Online IoT Course | Spaektech - Learn ESP32, Smart Home & Automation</title>
+  <meta name="description" content="Join our 30-Hour Online IoT Course by Senior IoT Engineer Mr. Yogesh Mene. Learn ESP32 programming, MQTT, sensors, cloud connectivity, and smart home automation. Early bird offer: ₹499 only!">
+  <meta name="keywords" content="IoT course, online IoT training, ESP32 programming, smart home automation, MQTT protocol, learn electronics, Spaektech, Yogesh Mene">
+  <meta name="author" content="Spaektech">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Online IoT Course | Spaektech - Learn ESP32 & Automation">
+  <meta property="og:description" content="Gain hands-on experience with real-world IoT projects. Weekend batches starting soon at ₹499 early bird price. Register now!">
+  <meta property="og:image" content="assets/hero-iot.png">
+  <meta property="og:type" content="website">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Decorative Grid and Glows -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Header Section -->
+  <header class="header" id="header">
+    <div class="container header-container">
+      <a href="#home" class="logo" id="brand-logo" title="Click 5 times for Admin Dashboard">
+        SPAEK<span>TECH</span>
+        <span class="logo-dot"></span>
+      </a>
+      <nav class="nav-menu" id="nav-menu">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">Curriculum</a>
+        <a href="#trainer" class="nav-link">Trainer</a>
+        <a href="#audience" class="nav-link">For Whom</a>
+        <a href="#register-section" class="nav-link nav-btn">Register Now</a>
+      </nav>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="badge-container">
+          <span class="hero-badge">Weekend Batches</span>
+          <span class="hero-badge-pulse">Early Bird Active</span>
+        </div>
+        <h1 class="hero-title">
+          Master the <span class="gradient-text">Internet of Things</span> (IoT)
+        </h1>
+        <p class="hero-subtitle">
+          Dive into a hands-on, 30-hour online journey. Program the ESP32, connect sensors to the cloud, implement MQTT protocol, and build real-world smart home automation projects.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#register-section" class="btn btn-primary btn-glow" id="hero-cta-btn">Enrol For <span class="price-val">₹499</span></a>
+          <a href="#about" class="btn btn-secondary">Explore Curriculum</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">30+</span>
+            <span class="stat-label">Hours of Content</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">Project-Based</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num" id="stat-price-val">₹499</span>
+            <span class="stat-label" id="stat-price-lbl">Early Bird Fee</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="image-frame-glow">
+          <img src="assets/hero-iot.png" alt="Smart IoT device and automation concept with glowing microchip and sensor network" class="hero-image">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Curriculum Section -->
+  <section class="curriculum" id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tagline">Course Syllabus</span>
+        <h2 class="section-title">What You Will Learn</h2>
+        <p class="section-desc">Get comprehensive, industry-relevant knowledge packed into 8 core modules designed to take you from a beginner to a confident IoT developer.</p>
+      </div>
+      
+      <div class="curriculum-grid">
+        <!-- Card 1 -->
+        <div class="curriculum-card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line></svg>
+          </div>
+          <h3 class="card-title">ESP32 Programming</h3>
+          <p class="card-body">Master writing firmware for the powerful ESP32 SoC, managing GPIOs, interrupts, timers, and multi-core capabilities using the Arduino framework.</p>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="curriculum-card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path><circle cx="5" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+          </div>
+          <h3 class="card-title">Electronics Fundamentals</h3>
+          <p class="card-body">Understand circuits, current, voltage, resistance, pull-up/pull-down configurations, breadboarding, and how to safely wire microcontrollers.</p>
+        </div>
+        
+        <!-- Card 3 -->
+        <div class="curriculum-card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path><path d="M4.93 19.07l2.83-2.83"></path><path d="M16.24 7.76l2.83-2.83"></path></svg>
+          </div>
+          <h3 class="card-title">Sensors & Actuators</h3>
+          <p class="card-body">Interface with real-world sensors (temperature, humidity, motion, ultrasonic) and control actuators like relays, buzzers, and servo motors.</p>
+        </div>
+        
+        <!-- Card 4 -->
+        <div class="curriculum-card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.58 16.14a7 7 0 0 1 6.84 0"></path><circle cx="12" cy="20" r="1"></circle></svg>
+          </div>
+          <h3 class="card-title">IoT & Cloud Connectivity</h3>
+          <p class="card-body">Connect your physical hardware to cloud networks, manage Wi-Fi states, and send telemetry data to cloud analytics platforms securely.</p>
+        </div>
+        
+        <!-- Card 5 -->
+        <div class="curriculum-card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <h3 class="card-title">MQTT Protocol</h3>
+          <p class="card-body">Deep-dive into the standard publish-subscribe protocol of IoT. Set up MQTT brokers, publish sensor payloads, and subscribe to control commands.</p>
+        </div>
+        
+        <!-- Card 6 -->
+        <div class="curriculum-card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </div>
+          <h3 class="card-title">Smart Home Automation</h3>
+          <p class="card-body">Build local control networks, set up web servers on the ESP32, and integrate mobile dashboards to toggle home appliances over the network.</p>
+        </div>
+        
+        <!-- Card 7 -->
+        <div class="curriculum-card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <h3 class="card-title">Real-World Projects</h3>
+          <p class="card-body">Apply concepts practically by building complete systems like Smart Weather Stations, Remote Energy Toggles, and Security Alarms.</p>
+        </div>
+        
+        <!-- Card 8 -->
+        <div class="curriculum-card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+          </div>
+          <h3 class="card-title">Certificate of Completion</h3>
+          <p class="card-body">Validate your skills. Receive an official certificate of completion from Spaektech to showcase on your LinkedIn profile and resume.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trainer Section -->
+  <section class="trainer-section" id="trainer">
+    <div class="container">
+      <div class="trainer-card">
+        <div class="trainer-visual">
+          <div class="avatar-glow">
+            <img src="assets/trainer.jpg" alt="Mr. Yogesh Mene - Senior IoT Engineer and Instructor" class="trainer-img">
+            <div class="expert-badge">Senior Engineer</div>
+          </div>
+        </div>
+        <div class="trainer-info">
+          <span class="trainer-tag">Meet Your Instructor</span>
+          <h2 class="trainer-name">Mr. Yogesh Mene</h2>
+          <p class="trainer-title">Senior IoT Engineer | Metayb Pvt. Ltd., Chennai</p>
+          <div class="trainer-bio">
+            <p>Mr. Yogesh Mene is a veteran engineer specializing in microchip programming, IoT architecture, and telemetry interfaces. Having spent years designing and deploying industrial automation networks, he brings invaluable, practical production knowledge to the classroom. His teaching style focuses on eliminating complex jargon and building projects from scratch.</p>
+          </div>
+          <div class="trainer-skills">
+            <span class="skill-tag">ESP32 Firmware</span>
+            <span class="skill-tag">MQTT Protocols</span>
+            <span class="skill-tag">Hardware Layouts</span>
+            <span class="skill-tag">Cloud Telemetry</span>
+            <span class="skill-tag">FreeRTOS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audience Section -->
+  <section class="audience-section" id="audience">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tagline">Who is it for?</span>
+        <h2 class="section-title">Designed For Tech Enthusiasts</h2>
+        <p class="section-desc">Whether you have zero experience in coding or are a professional looking to dive into embedded engineering, this course provides clear directions.</p>
+      </div>
+      
+      <div class="audience-grid">
+        <!-- Audience 1 -->
+        <div class="audience-card">
+          <div class="audience-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          </div>
+          <h3 class="audience-title">School Students</h3>
+          <p class="audience-desc-text">Cultivate critical logical thinking. Learn standard electronics fundamentals and how to control real lights and relays, boosting your science and technical curriculum.</p>
+        </div>
+
+        <!-- Audience 2 -->
+        <div class="audience-card">
+          <div class="audience-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path></svg>
+          </div>
+          <h3 class="audience-title">College Students</h3>
+          <p class="audience-desc-text">Add solid, real-world mini-projects and major hardware prototypes to your resume. Stand out in engineering interviews with practical embedded system skills.</p>
+        </div>
+
+        <!-- Audience 3 -->
+        <div class="audience-card">
+          <div class="audience-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+          </div>
+          <h3 class="audience-title">Beginners</h3>
+          <p class="audience-desc-text">No coding background required! The curriculum begins from the ground up, clarifying basic syntax, circuits, variables, and programming concepts step-by-step.</p>
+        </div>
+
+        <!-- Audience 4 -->
+        <div class="audience-card">
+          <div class="audience-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          </div>
+          <h3 class="audience-title">Technology Enthusiasts</h3>
+          <p class="audience-desc-text">Build custom home automations, monitor environmental nodes, and develop self-healing smart systems to turn your physical environments intelligent.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing & Registration Section -->
+  <section class="register-section" id="register-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tagline">How to Join</span>
+        <h2 class="section-title">Registration Steps</h2>
+        <p class="section-desc">Join the 30-Hour Online IoT Course in three simple steps.</p>
+      </div>
+
+      <div class="register-grid">
+        
+        <!-- Registration Steps Column -->
+        <div class="register-steps-container">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-info">
+              <h3 id="step-1-title">Scan & Pay Early Bird Fee</h3>
+              <p>Transfer <strong class="price-val">₹499</strong> using the official payment QR code on the right, or use the UPI ID below:</p>
+              <div class="upi-box">
+                <span class="upi-label">UPI ID</span>
+                <span class="upi-value">yogeshmene00-3@okicici</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-info">
+              <h3>Fill out the Google Form</h3>
+              <p>Open the official Google Form, enter your details, and upload a screenshot of your payment receipt to secure your seat.</p>
+              <a href="https://forms.gle/T1V1zwzF8xTGyeED9" target="_blank" rel="noopener" class="btn btn-primary btn-glow step-btn" id="google-form-btn">
+                Open Google Registration Form
+              </a>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-info">
+              <h3>Join WhatsApp Batch Group</h3>
+              <p>Join the student community group to receive live lecture links, study material, and direct support from Yogesh Mene.</p>
+              <a href="https://chat.whatsapp.com/IDAIivJ00jTGMK6SNCKlJG" target="_blank" rel="noopener" class="btn btn-whatsapp step-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c-5.52 0-10 4.48-10 10 0 1.95.56 3.77 1.54 5.31l-1.02 3.73 3.84-.99c1.47.88 3.19 1.39 5.02 1.39 5.52 0 10-4.48 10-10s-4.48-10-10-10zm-1.89 15.65c-.71 0-1.4-.24-1.99-.68l-.29-.21-2.22.58.59-2.14-.24-.34c-.49-.7-.75-1.53-.75-2.39 0-2.43 2.01-4.42 4.49-4.42.59 0 1.17.11 1.72.33s1.02.54 1.41.93c.8.8 1.25 1.86 1.25 2.99s-.45 2.19-1.25 2.99c-.79.79-1.85 1.24-2.99 1.24s-2.19-.45-2.99-1.24l-.12-.13-.12.13c-.22.22-.48.39-.76.51s-.59.18-.89.18zm4.49-3.23c-.15-.08-.91-.45-1.05-.5s-.24-.08-.34.08-.39.5-.48.61-.18.12-.34.04c-.16-.08-.66-.24-1.26-.78-.47-.42-.78-.93-.87-1.09-.09-.16-.01-.25.07-.33.07-.07.16-.19.24-.29s.11-.17.16-.29c.05-.12.03-.23-.01-.31s-.34-.84-.47-1.15c-.13-.3-.26-.26-.35-.26h-.29c-.1 0-.26.04-.4.19-.14.15-.53.52-.53 1.27s.55 1.47.62 1.58c.08.11 1.08 1.65 2.62 2.31.37.16.65.25.87.32.37.12.7.1.97.06.3-.04.91-.37 1.04-.73s.13-.66.09-.73c-.04-.07-.15-.11-.3-.19z"/></svg>
+                Join WhatsApp Group
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ticket Card Column -->
+        <div class="pricing-card-container">
+          <div class="ticket-card">
+            <div class="ticket-glow"></div>
+            <div class="ticket-top">
+              <span class="ticket-badge" id="ticket-badge">Official GPay QR</span>
+              <h3>Yogesh Mene</h3>
+              <p class="ticket-duration" id="ticket-price-sub">Scan to pay Early Bird fee: ₹499</p>
+            </div>
+            <div class="ticket-divider">
+              <span class="notch notch-left"></span>
+              <span class="divider-line"></span>
+              <span class="notch notch-right"></span>
+            </div>
+            <div class="ticket-bottom qr-bottom">
+              <div class="qr-image-wrapper">
+                <img src="assets/payment-qr.jpg" alt="Official GPay UPI payment QR Code for Yogesh Mene" class="payment-qr-img">
+              </div>
+
+              <div class="price-box" id="ticket-price-box" style="margin-bottom: 0;">
+                <span class="new-price-tag" id="ticket-new-price"><span id="ticket-new-price-val">₹499</span> <span class="tax-tag">Only</span></span>
+              </div>
+              
+              <div class="upi-details-list" style="margin-top: 0; padding-top: 10px;">
+                <div class="upi-detail-item">
+                  <span class="u-lbl">UPI ID:</span>
+                  <span class="u-val font-mono">yogeshmene00-3@okicici</span>
+                </div>
+                <div class="upi-detail-item">
+                  <span class="u-lbl">Trainer Contact:</span>
+                  <span class="u-val">+91 8554849607</span>
+                </div>
+              </div>
+              
+              <div class="seat-progress">
+                <div class="seat-text">
+                  <span id="seat-status-lbl">Seats Filled</span>
+                  <span id="seat-pct-lbl">87% (Seats Filling Fast)</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" id="seat-progress-fill" style="width: 87%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-logo-section">
+        <a href="#home" class="logo footer-logo">
+          SPAEK<span>TECH</span>
+        </a>
+        <p class="footer-tagline">Building future-proof IoT skills, one project at a time.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <a href="#home">Home</a>
+        <a href="#about">Curriculum</a>
+        <a href="#trainer">Trainer</a>
+        <a href="#register-section">Register</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Trainer</h4>
+        <p><strong>Yogesh Mene</strong></p>
+        <p>Senior IoT Engineer</p>
+        <p>Email: info@spaektech.com</p>
+        <p>Phone: +91 8554849607</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-container">
+        <p>&copy; 2026 Spaektech. All rights reserved.</p>
+        <p><a href="https://chat.whatsapp.com/IDAIivJ00jTGMK6SNCKlJG" target="_blank" rel="noopener">Join WhatsApp Group</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
