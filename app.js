@@ -18,33 +18,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const navMenu = document.getElementById('nav-menu');
   const navLinks = document.querySelectorAll('.nav-link');
 
-  /* --- Navigation Controls --- */
+  /* --- Navigation Controls (rAF-throttled scroll) --- */
+  let scrollTicking = false;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
+    if (!scrollTicking) {
+      requestAnimationFrame(() => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+
+        // Scroll Spy: Active Nav Link Highlight
+        let current = '';
+        const sections = document.querySelectorAll('section, header');
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (window.scrollY >= (sectionTop - 150)) {
+            current = section.getAttribute('id');
+          }
+        });
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href').slice(1) === current) {
+            link.classList.add('active');
+          }
+        });
+        scrollTicking = false;
+      });
+      scrollTicking = true;
     }
-
-    // Scroll Spy: Active Nav Link Highlight
-    let current = '';
-    const sections = document.querySelectorAll('section, header');
-
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
-      if (window.scrollY >= (sectionTop - 150)) {
-        current = section.getAttribute('id');
-      }
-    });
-
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href').slice(1) === current) {
-        link.classList.add('active');
-      }
-    });
-  });
+  }, { passive: true });
 
   // Mobile Menu Toggle
   menuToggle.addEventListener('click', () => {
@@ -175,16 +179,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* --- Interactive Particle System (Canvas Backdrop) --- */
   const canvas = document.getElementById('particle-canvas');
-  if (canvas) {
+  // Skip particles on mobile to save battery & CPU
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (canvas && !isMobile) {
     const ctx = canvas.getContext('2d');
     let particles = [];
-    const maxParticles = 60;
+    const maxParticles = 35; // reduced from 60
+    let animating = true;
     
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
     resize();
     
     class Particle {
@@ -193,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         this.y = Math.random() * canvas.height;
         this.vx = (Math.random() - 0.5) * 0.4;
         this.vy = (Math.random() - 0.5) * 0.4;
-        this.radius = Math.random() * 2 + 1;
+        this.radius = Math.random() * 1.5 + 0.5;
       }
       update() {
         this.x += this.vx;
@@ -213,38 +220,55 @@ document.addEventListener('DOMContentLoaded', () => {
       particles.push(new Particle());
     }
     
+    // Pause animation when tab is not visible
+    document.addEventListener('visibilitychange', () => {
+      animating = !document.hidden;
+      if (animating) animate();
+    });
+    
     const animate = () => {
+      if (!animating) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(p => {
         p.update();
         p.draw();
       });
       
+      // O(n²) line connections - only draw if within threshold
       ctx.strokeStyle = 'rgba(138, 43, 226, 0.05)';
       ctx.lineWidth = 0.5;
+      ctx.beginPath();
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
-          const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
-          if (dist < 120) {
-            ctx.beginPath();
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy); // faster than Math.hypot
+          if (dist < 100) {
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
           }
         }
       }
+      ctx.stroke();
       requestAnimationFrame(animate);
     };
     animate();
   }
 
-  /* --- Mouse Glow effect --- */
+  /* --- Mouse Glow effect (rAF-throttled) --- */
   const cursorGlow = document.getElementById('cursor-glow');
   if (cursorGlow) {
+    let glowTicking = false;
     window.addEventListener('mousemove', (e) => {
-      cursorGlow.style.left = `${e.clientX}px`;
-      cursorGlow.style.top = `${e.clientY}px`;
-    });
+      if (!glowTicking) {
+        requestAnimationFrame(() => {
+          cursorGlow.style.left = `${e.clientX}px`;
+          cursorGlow.style.top = `${e.clientY}px`;
+          glowTicking = false;
+        });
+        glowTicking = true;
+      }
+    }, { passive: true });
   }
 
   /* --- Typewriter / Tagline Rotator --- */
