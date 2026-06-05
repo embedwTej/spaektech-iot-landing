@@ -255,15 +255,15 @@ document.addEventListener('DOMContentLoaded', () => {
     animate();
   }
 
-  /* --- Mouse Glow effect (rAF-throttled) --- */
+  /* --- Mouse Glow effect (rAF-throttled, transform-based for GPU perf) --- */
   const cursorGlow = document.getElementById('cursor-glow');
   if (cursorGlow) {
     let glowTicking = false;
     window.addEventListener('mousemove', (e) => {
       if (!glowTicking) {
         requestAnimationFrame(() => {
-          cursorGlow.style.left = `${e.clientX}px`;
-          cursorGlow.style.top = `${e.clientY}px`;
+          // translate() keeps on compositor thread — no layout/paint recalc
+          cursorGlow.style.transform = `translate(${e.clientX - 175}px, ${e.clientY - 175}px)`;
           glowTicking = false;
         });
         glowTicking = true;

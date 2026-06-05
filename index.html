@@ -24,6 +24,8 @@
   
   <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css">
+  <!-- Preload trainer image (only real image rendered on page) -->
+  <link rel="preload" as="image" href="assets/trainer.jpg">
 </head>
 <body>
   <script>
@@ -421,7 +423,7 @@
       <div class="trainer-card">
         <div class="trainer-visual">
           <div class="avatar-glow">
-            <img src="assets/trainer.jpg" alt="Mr. Yogesh Mene - Senior IoT Engineer and Instructor" class="trainer-img" loading="lazy" decoding="async">
+            <img src="assets/trainer.jpg" alt="Mr. Yogesh Mene - Senior IoT Engineer and Instructor" class="trainer-img" width="180" height="180" loading="lazy" decoding="async">
             <div class="expert-badge">Senior Engineer</div>
           </div>
         </div>
@@ -627,6 +629,6 @@
     </div>
   </footer>
 
-  <script type="module" src="/app.js"></script>
+  <script defer src="/app.js"></script>
 </body>
 </html>

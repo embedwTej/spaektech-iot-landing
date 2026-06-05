@@ -8,7 +8,7 @@
   --bg-card-hover: rgba(255, 255, 255, 0.04);
   --card-border: rgba(255, 255, 255, 0.08);
   --card-border-hover: rgba(0, 240, 255, 0.35);
-  
+
   --accent-cyan: #00f0ff;
   --accent-purple: #8a2be2;
   --accent-purple-glow: rgba(138, 43, 226, 0.25);
@@ -62,7 +62,10 @@ body {
   transition: padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-title);
   color: var(--text-white);
   font-weight: 700;
@@ -89,7 +92,7 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
+  background-image:
     linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
   background-size: 50px 50px;
@@ -112,17 +115,22 @@ a {
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  filter: blur(140px);
-  opacity: 0.12;
+  /* Reduced blur for performance — blur(140px) is extremely GPU-heavy */
+  filter: blur(80px);
+  opacity: 0.10;
   pointer-events: none;
   z-index: -1;
   mix-blend-mode: screen;
+  /* GPU-layer promotion to avoid repainting the whole page */
+  will-change: transform;
+  contain: layout style;
 }
 
 .bg-glow-1 {
   background: var(--accent-cyan);
   top: -150px;
   right: -100px;
+  /* Slow animation — no need for 60fps, use step-based timing */
   animation: glowFloat 15s infinite alternate ease-in-out;
 }
 
@@ -133,18 +141,19 @@ a {
   animation: glowFloat 20s infinite alternate-reverse ease-in-out;
 }
 
+/* Removed bg-glow-3 — third simultaneous blur was unnecessary overhead */
 .bg-glow-3 {
-  background: var(--accent-purple);
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: glowFloat 22s infinite alternate ease-in-out;
-  opacity: 0.06;
+  display: none;
 }
 
 @keyframes glowFloat {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(50px, 30px) scale(1.08); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(50px, 30px) scale(1.08);
+  }
 }
 
 .gradient-text {
@@ -191,16 +200,18 @@ a {
   width: 100%;
   height: var(--header-height);
   z-index: 100;
-  background: rgba(3, 4, 7, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(3, 4, 7, 0.85);
+  /* Reduced from blur(20px) — lower blur = faster compositing */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--card-border);
   transition: top 0.3s ease, height 0.3s ease, background 0.3s ease;
+  will-change: top;
 }
 
 .header.scrolled {
   height: 70px;
-  background: rgba(3, 4, 7, 0.9);
+  background: rgba(3, 4, 7, 0.95);
   border-bottom-color: rgba(0, 240, 255, 0.15);
 }
 
@@ -262,11 +273,13 @@ a {
   transition: var(--transition-smooth);
 }
 
-.nav-link:hover::after, .nav-link.active::after {
+.nav-link:hover::after,
+.nav-link.active::after {
   width: 100%;
 }
 
-.nav-link:hover, .nav-link.active {
+.nav-link:hover,
+.nav-link.active {
   color: var(--accent-cyan);
 }
 
@@ -377,15 +390,37 @@ a {
 }
 
 @keyframes pulseGreen {
-  0% { transform: scale(0.9); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.5; }
-  100% { transform: scale(0.9); opacity: 1; }
+  0% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
 }
 
 @keyframes pulsePurple {
-  0% { transform: scale(0.9); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.5; }
-  100% { transform: scale(0.9); opacity: 1; }
+  0% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
 }
 
 .hero-badge-live {
@@ -403,8 +438,13 @@ a {
 }
 
 @keyframes badgeGlow {
-  0% { box-shadow: 0 0 8px rgba(255, 59, 48, 0.1); }
-  100% { box-shadow: 0 0 18px rgba(255, 59, 48, 0.3); }
+  0% {
+    box-shadow: 0 0 8px rgba(255, 59, 48, 0.1);
+  }
+
+  100% {
+    box-shadow: 0 0 18px rgba(255, 59, 48, 0.3);
+  }
 }
 
 .tagline-rotate {
@@ -478,12 +518,12 @@ a {
 .iot-simulator-card {
   width: 100%;
   max-width: 420px;
-  background: rgba(9, 10, 15, 0.65);
+  /* Replaced semi-transparent blur with a solid dark background — avoids compositing layer */
+  background: rgba(9, 10, 15, 0.95);
   border: 1px solid var(--card-border);
   border-radius: var(--border-radius-md);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--glow-shadow);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* Removed backdrop-filter: blur — not visually needed here */
   overflow: hidden;
 }
 
@@ -508,9 +548,17 @@ a {
   display: inline-block;
 }
 
-.simulator-dots span:nth-child(1) { background-color: #ff5f56; }
-.simulator-dots span:nth-child(2) { background-color: #ffbd2e; }
-.simulator-dots span:nth-child(3) { background-color: #27c93f; }
+.simulator-dots span:nth-child(1) {
+  background-color: #ff5f56;
+}
+
+.simulator-dots span:nth-child(2) {
+  background-color: #ffbd2e;
+}
+
+.simulator-dots span:nth-child(3) {
+  background-color: #27c93f;
+}
 
 .simulator-title {
   font-family: monospace;
@@ -663,12 +711,12 @@ a {
   border-radius: 50%;
 }
 
-input:checked + .slider-round {
+input:checked+.slider-round {
   background-color: rgba(138, 43, 226, 0.2);
   border-color: var(--accent-purple);
 }
 
-input:checked + .slider-round:before {
+input:checked+.slider-round:before {
   transform: translateX(18px);
   background-color: var(--accent-cyan);
 }
@@ -686,9 +734,20 @@ input:checked + .slider-round:before {
   box-shadow: 0 0 12px currentColor;
 }
 
-.shadow-led-blue.active { background-color: var(--accent-cyan); color: var(--accent-cyan); }
-.shadow-led-green.active { background-color: var(--success-green); color: var(--success-green); }
-.shadow-led-red.active { background-color: var(--danger-red); color: var(--danger-red); }
+.shadow-led-blue.active {
+  background-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.shadow-led-green.active {
+  background-color: var(--success-green);
+  color: var(--success-green);
+}
+
+.shadow-led-red.active {
+  background-color: var(--danger-red);
+  color: var(--danger-red);
+}
 
 /* Serial Console */
 .hardware-console {
@@ -716,21 +775,48 @@ input:checked + .slider-round:before {
   gap: 4px;
 }
 
-.c-line { color: #8e9ba7; }
-.c-line.sys { color: var(--accent-purple); }
-.c-line.wifi { color: #00bcd4; }
-.c-line.success { color: var(--success-green); }
-.c-line.mqtt { color: #ffb74d; }
-.c-line.info { color: #81c784; }
-.c-line.cmd { color: var(--accent-cyan); }
+.c-line {
+  color: #8e9ba7;
+}
+
+.c-line.sys {
+  color: var(--accent-purple);
+}
+
+.c-line.wifi {
+  color: #00bcd4;
+}
+
+.c-line.success {
+  color: var(--success-green);
+}
+
+.c-line.mqtt {
+  color: #ffb74d;
+}
+
+.c-line.info {
+  color: #81c784;
+}
+
+.c-line.cmd {
+  color: var(--accent-cyan);
+}
 
 .c-line.blink {
   animation: txtBlink 1s step-end infinite;
 }
 
 @keyframes txtBlink {
-  from, to { border-color: transparent }
-  50% { border-color: white }
+
+  from,
+  to {
+    border-color: transparent
+  }
+
+  50% {
+    border-color: white
+  }
 }
 
 /* --- Live Class Portal Section --- */
@@ -740,6 +826,9 @@ input:checked + .slider-round:before {
   position: relative;
   border-top: 1px solid var(--card-border);
   border-bottom: 1px solid var(--card-border);
+  /* Skip rendering content off-screen — browser defers layout/paint until needed */
+  content-visibility: auto;
+  contain-intrinsic-size: 0 700px;
 }
 
 .portal-grid {
@@ -768,9 +857,8 @@ input:checked + .slider-round:before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(3, 4, 7, 0.85);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
+  /* Replaced blur(25px) on a full-size overlay with a solid color — massive GPU saving */
+  background: rgba(3, 4, 7, 0.96);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -806,7 +894,9 @@ input:checked + .slider-round:before {
 }
 
 @keyframes spinRing {
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 .portal-locked-overlay h3 {
@@ -960,12 +1050,30 @@ input:checked + .slider-round:before {
   color: #a9b2c3;
   margin-bottom: 4px;
 }
-.c-pre { color: #f9758b; }
-.c-comment { color: #6a737d; }
-.c-type { color: #ff7b72; }
-.c-func { color: #d73a49; }
-.c-str { color: #9ecbff; }
-.c-val { color: #79c0ff; }
+
+.c-pre {
+  color: #f9758b;
+}
+
+.c-comment {
+  color: #6a737d;
+}
+
+.c-type {
+  color: #ff7b72;
+}
+
+.c-func {
+  color: #d73a49;
+}
+
+.c-str {
+  color: #9ecbff;
+}
+
+.c-val {
+  color: #79c0ff;
+}
 
 .player-controls {
   background: rgba(255, 255, 255, 0.01);
@@ -1097,7 +1205,7 @@ input:checked + .slider-round:before {
 
 .chat-input-area {
   border-top: 1px solid var(--card-border);
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
   padding: 8px 12px;
   display: flex;
   gap: 8px;
@@ -1105,7 +1213,7 @@ input:checked + .slider-round:before {
 
 .chat-input-area input {
   flex-grow: 1;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--card-border);
   border-radius: var(--border-radius-sm);
   padding: 8px 12px;
@@ -1139,6 +1247,8 @@ input:checked + .slider-round:before {
   padding: 100px 0;
   background-color: var(--bg-primary);
   position: relative;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 900px;
 }
 
 .timeline-container {
@@ -1253,6 +1363,8 @@ input:checked + .slider-round:before {
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--card-border);
   border-bottom: 1px solid var(--card-border);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
 }
 
 .trainer-card {
@@ -1264,7 +1376,7 @@ input:checked + .slider-round:before {
   border: 1px solid var(--card-border);
   border-radius: var(--border-radius-lg);
   padding: 48px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   transition: var(--transition-smooth);
 }
 
@@ -1363,6 +1475,8 @@ input:checked + .slider-round:before {
 .audience-section {
   padding: 100px 0;
   background-color: var(--bg-primary);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 700px;
 }
 
 .audience-grid {
@@ -1419,6 +1533,8 @@ input:checked + .slider-round:before {
   padding: 100px 0;
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--card-border);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 700px;
 }
 
 .register-grid {
@@ -1547,7 +1663,7 @@ input:checked + .slider-round:before {
   background: var(--bg-primary);
   border: 1px solid var(--card-border);
   border-radius: var(--border-radius-md);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   overflow: hidden;
   position: relative;
 }
@@ -1633,7 +1749,7 @@ input:checked + .slider-round:before {
   background: #ffffff;
   padding: 10px;
   border-radius: var(--border-radius-md);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1693,7 +1809,7 @@ input:checked + .slider-round:before {
 .progress-bar-bg {
   width: 100%;
   height: 5px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 50px;
   overflow: hidden;
 }
@@ -1779,7 +1895,8 @@ input:checked + .slider-round:before {
   gap: 10px;
 }
 
-.footer-links h4, .footer-contact h4 {
+.footer-links h4,
+.footer-contact h4 {
   font-size: 15px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -1803,7 +1920,7 @@ input:checked + .slider-round:before {
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.02);
   padding: 24px 0;
 }
 
@@ -1908,6 +2025,43 @@ input:checked + .slider-round:before {
     --header-height: 70px;
   }
 
+  /* ====================================================
+     MOBILE PERFORMANCE: Kill expensive GPU layers
+     bg-glow uses blur(80px) on position:fixed — extremely
+     expensive on mobile. Disable entirely.
+     ==================================================== */
+  .bg-glow-1,
+  .bg-glow-2,
+  .bg-glow-3 {
+    display: none;
+  }
+
+  /* bg-grid is position:fixed — forces repaint on every scroll tick on iOS/Android */
+  .bg-grid {
+    display: none;
+  }
+
+  /* Remove backdrop-filter from header — mobile GPUs can't handle it without scroll jank */
+  .header {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(3, 4, 7, 0.97);
+  }
+
+  /* Disable heavy decorative animations on mobile — saves significant CPU/GPU */
+  .bg-glow-1,
+  .bg-glow-2 {
+    animation: none;
+  }
+
+  .hero-badge-live {
+    animation: none;
+  }
+
+  .lock-glow-ring {
+    animation: none;
+  }
+
   /* Typography */
   .section-title {
     font-size: 28px;
@@ -1921,7 +2075,7 @@ input:checked + .slider-round:before {
     font-size: 11px;
   }
 
-  /* Nav */
+  /* Nav — use transform instead of left for slide-in (compositor-only, no layout) */
   .menu-toggle {
     display: flex;
   }
@@ -1929,20 +2083,22 @@ input:checked + .slider-round:before {
   .nav-menu {
     position: fixed;
     top: calc(var(--banner-height) + var(--header-height));
-    left: -100%;
+    left: 0;
     width: 100%;
     height: calc(100vh - var(--banner-height) - var(--header-height));
     background: rgba(3, 4, 7, 0.98);
     flex-direction: column;
     padding: 44px 24px;
     gap: 28px;
-    transition: var(--transition-smooth);
+    /* transform-based slide: stays on GPU compositor, no layout recalc */
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-top: 1px solid var(--card-border);
     z-index: 99;
   }
 
   .nav-menu.active {
-    left: 0;
+    transform: translateX(0);
   }
 
   .menu-toggle.active span:nth-child(1) {
@@ -2153,7 +2309,7 @@ input:checked + .slider-round:before {
     text-align: center;
   }
 
-  /* Cursor glow off on touch */
+  /* Cursor glow off on touch devices (no mouse) */
   .cursor-glow {
     display: none;
   }
@@ -2188,6 +2344,7 @@ input:checked + .slider-round:before {
   .container {
     padding: 0 16px;
   }
+
   .hero-title {
     font-size: 26px;
   }
@@ -2373,9 +2530,20 @@ body.no-banner .announcement-banner {
 }
 
 @keyframes bannerPulse {
-  0% { transform: scale(0.9); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.4; }
-  100% { transform: scale(0.9); opacity: 1; }
+  0% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
 }
 
 .banner-text strong {
@@ -2426,14 +2594,19 @@ body.no-banner .announcement-banner {
 /* --- Dynamic Cursor Light Glow --- */
 .cursor-glow {
   position: fixed;
+  /* Anchored at top-left — position controlled via transform in JS (avoids layout) */
+  top: 0;
+  left: 0;
   width: 350px;
   height: 350px;
   background: radial-gradient(circle, rgba(0, 240, 255, 0.06) 0%, rgba(138, 43, 226, 0.03) 50%, transparent 100%);
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
-  transform: translate(-50%, -50%);
+  /* Use transform for movement — compositor-only, no layout thrash */
+  transform: translate(-175px, -175px);
   mix-blend-mode: screen;
+  will-change: transform;
 }
 
 /* --- Scroll Reveal Animations --- */
@@ -2471,4 +2644,33 @@ body.no-banner .announcement-banner {
 .btn-primary:hover::after {
   left: 150%;
   transition: all 0.75s ease-in-out;
+}
+
+
+/* ====================================================
+   PREFERS REDUCED MOTION
+   Disables all animations for users who opt-in to
+   reduced motion — also massively helps slow devices.
+   ==================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .bg-glow-1,
+  .bg-glow-2,
+  .bg-glow-3 {
+    animation: none;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
