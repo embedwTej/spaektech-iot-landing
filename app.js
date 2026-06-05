@@ -8,7 +8,7 @@
 // 1. Show the ₹499 early bird discount if the count is less than 5 (e.g. 0, 1, 2, 3, 4).
 // 2. Automatically switch the price to ₹799 for everyone once it reaches 5 or more.
 // 3. Update the visual progress bar (e.g. "3 / 5 Seats Filled").
-const CURRENT_REGISTRATION_COUNT =3;
+const CURRENT_REGISTRATION_COUNT =5;
 // =========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
