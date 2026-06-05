@@ -25,11 +25,29 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('spaektech-banner-dismissed') === 'true') {
+      document.body.classList.add('no-banner');
+    }
+  </script>
+
+  <!-- Announcement Banner -->
+  <div class="announcement-banner" id="announcement-banner">
+    <div class="announcement-banner-content">
+      <span class="banner-pulse"></span>
+      <span class="banner-text">Live classes starting on <strong>June 20</strong>! Hurry up, limited seats left.</span>
+      <a href="#register-section" class="banner-link">Enroll Now &rarr;</a>
+    </div>
+    <button class="banner-close-btn" id="banner-close-btn" aria-label="Close Announcement">&times;</button>
+  </div>
 
   <!-- Background Decorative Grid and Glows -->
   <div class="bg-grid"></div>
+  <canvas id="particle-canvas"></canvas>
+  <div class="cursor-glow" id="cursor-glow"></div>
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
 
   <!-- Header Section -->
   <header class="header" id="header">
@@ -40,6 +58,7 @@
       </a>
       <nav class="nav-menu" id="nav-menu">
         <a href="#home" class="nav-link active">Home</a>
+        <a href="#live-portal" class="nav-link">Live Portal</a>
         <a href="#about" class="nav-link">Curriculum</a>
         <a href="#trainer" class="nav-link">Trainer</a>
         <a href="#audience" class="nav-link">For Whom</a>
@@ -60,35 +79,227 @@
         <div class="badge-container">
           <span class="hero-badge">Weekend Batches</span>
           <span class="hero-badge-pulse">Early Bird Active</span>
+          <span class="hero-badge-live">Live Classes: June 20</span>
+        </div>
+        <div class="tagline-rotate">
+          BUILD REAL-WORLD <span id="rotate-text" class="gradient-text">ESP32 FIRMWARE</span>
         </div>
         <h1 class="hero-title">
-          Master the <span class="gradient-text">Internet of Things</span> (IoT)
+          30 Hrs Online <span class="gradient-text">Industrial IoT</span> Learning Sessions
         </h1>
         <p class="hero-subtitle">
-          Dive into a hands-on, 30-hour online journey. Program the ESP32, connect sensors to the cloud, implement MQTT protocol, and build real-world smart home automation projects.
+          Dive into a hands-on, 30-hour online journey starting June 20. Program the ESP32, connect sensors to the cloud, implement MQTT protocol, and build real-world smart home automation projects.
         </p>
         <div class="hero-cta-group">
           <a href="#register-section" class="btn btn-primary btn-glow" id="hero-cta-btn">Enrol For <span class="price-val">₹499</span></a>
-          <a href="#about" class="btn btn-secondary">Explore Curriculum</a>
+          <a href="#about" class="btn btn-secondary">Explore Syllabus</a>
         </div>
         <div class="hero-stats">
           <div class="stat-item">
-            <span class="stat-num">30+</span>
+            <span class="stat-num count-up" data-target="30" data-suffix="+">0+</span>
             <span class="stat-label">Hours of Content</span>
           </div>
           <div class="stat-item">
-            <span class="stat-num">100%</span>
+            <span class="stat-num count-up" data-target="100" data-suffix="%">0%</span>
             <span class="stat-label">Project-Based</span>
           </div>
           <div class="stat-item">
-            <span class="stat-num" id="stat-price-val">₹499</span>
+            <span class="stat-num count-up" id="stat-price-val" data-target="499" data-prefix="₹">₹0</span>
             <span class="stat-label" id="stat-price-lbl">Early Bird Fee</span>
           </div>
         </div>
       </div>
+      
+      <!-- IoT Lab Hardware Simulator -->
       <div class="hero-visual">
-        <div class="image-frame-glow">
-          <img src="assets/hero-iot.png" alt="Smart IoT device and automation concept with glowing microchip and sensor network" class="hero-image">
+        <div class="iot-simulator-card">
+          <div class="simulator-header">
+            <div class="simulator-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="simulator-title">ESP32 Hardware IoT Board</div>
+            <div class="status-indicator-led active" id="board-wifi-led">WiFi</div>
+          </div>
+          <div class="simulator-body">
+            <!-- Top OLED Panel -->
+            <div class="oled-display">
+              <div class="oled-header">TELEMETRY MONITOR</div>
+              <div class="oled-stats">
+                <div class="oled-stat">
+                  <span class="oled-lbl">TEMP</span>
+                  <span class="oled-val" id="oled-temp">24.5°C</span>
+                </div>
+                <div class="oled-stat">
+                  <span class="oled-lbl">HUMID</span>
+                  <span class="oled-val" id="oled-humid">62.0%</span>
+                </div>
+              </div>
+              <div class="oled-graph-container">
+                <canvas id="oled-chart" width="300" height="70"></canvas>
+              </div>
+            </div>
+            
+            <!-- Virtual Breadboard Relays -->
+            <div class="virtual-relays">
+              <div class="relay-switch-group">
+                <div class="relay-label">GPIO 02 (LED)</div>
+                <label class="toggle-slider">
+                  <input type="checkbox" id="gpio-led-switch">
+                  <span class="slider-round"></span>
+                </label>
+                <span class="led-light shadow-led-blue" id="gpio-led-indicator"></span>
+              </div>
+              <div class="relay-switch-group">
+                <div class="relay-label">GPIO 04 (Smart AC)</div>
+                <label class="toggle-slider">
+                  <input type="checkbox" id="gpio-ac-switch">
+                  <span class="slider-round"></span>
+                </label>
+                <span class="led-light shadow-led-green" id="gpio-ac-indicator"></span>
+              </div>
+              <div class="relay-switch-group">
+                <div class="relay-label">GPIO 15 (Security Alarm)</div>
+                <label class="toggle-slider">
+                  <input type="checkbox" id="gpio-alarm-switch">
+                  <span class="slider-round"></span>
+                </label>
+                <span class="led-light shadow-led-red" id="gpio-alarm-indicator"></span>
+              </div>
+            </div>
+            
+            <!-- Hardware Console Log -->
+            <div class="hardware-console">
+              <div class="console-header">SERIAL LOG MONITOR</div>
+              <div class="console-lines" id="serial-lines">
+                <div class="c-line sys">[SYSTEM] Booting FreeRTOS...</div>
+                <div class="c-line sys">[SYSTEM] ESP32 Chip Rev 3.0 Ready.</div>
+                <div class="c-line wifi">[WIFI] Connecting to Spaektech_IoT...</div>
+                <div class="c-line success">[SUCCESS] Connected! IP: 192.168.1.104</div>
+                <div class="c-line mqtt">[MQTT] Broker: yogeshmene.cloud Connected.</div>
+                <div class="c-line info">[MQTT] Subscribed to "home/relays/#"</div>
+                <div class="c-line blink">[SYSTEM] Listening for live inputs..._</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Class Access Portal -->
+  <section class="live-portal" id="live-portal">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tagline">Access Live Lectures</span>
+        <h2 class="section-title">Live Class Access Portal</h2>
+        <p class="section-desc">Connect directly to live hands-on lectures. Portal unlocks automatically on June 20, 2026, at 10:00 AM.</p>
+      </div>
+      
+      <div class="portal-grid">
+        <!-- Left: Portal Video Stream Panel -->
+        <div class="portal-player-container" id="portal-player-container">
+          <!-- Locked State overlay -->
+          <div class="portal-locked-overlay" id="portal-locked-overlay">
+            <div class="lock-visual">
+              <svg class="lock-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <div class="lock-glow-ring"></div>
+            </div>
+            <h3>Live Class Portal Locked</h3>
+            <p>Will unlock automatically on <strong>June 20, 2026 at 10:00 AM IST</strong></p>
+            
+            <!-- Dynamic Countdown Timer -->
+            <div class="countdown-timer" id="countdown-timer">
+              <div class="countdown-unit">
+                <span id="countdown-days">00</span>
+                <span class="unit-lbl">Days</span>
+              </div>
+              <div class="countdown-divider">:</div>
+              <div class="countdown-unit">
+                <span id="countdown-hours">00</span>
+                <span class="unit-lbl">Hrs</span>
+              </div>
+              <div class="countdown-divider">:</div>
+              <div class="countdown-unit">
+                <span id="countdown-minutes">00</span>
+                <span class="unit-lbl">Mins</span>
+              </div>
+              <div class="countdown-divider">:</div>
+              <div class="countdown-unit">
+                <span id="countdown-seconds">00</span>
+                <span class="unit-lbl">Secs</span>
+              </div>
+            </div>
+            <a href="#register-section" class="btn btn-primary btn-glow btn-sm">Enroll Now to Secure Access</a>
+          </div>
+          
+          <!-- Unlocked State Player -->
+          <div class="portal-unlocked-player" id="portal-unlocked-player" style="display: none;">
+            <div class="stream-header">
+              <span class="live-dot-pulse"></span>
+              <span class="stream-status">LIVE STREAM &bull; Mr. Yogesh Mene</span>
+              <span class="stream-topic">ESP32 Architecture & MQTT Logic</span>
+            </div>
+            <div class="player-visual-mock">
+              <div class="mock-video-bg">
+                <div class="video-overlay-play">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                </div>
+                <div class="simulated-code-editor">
+                  <div class="editor-header">
+                    <span>ESP32_WiFi_MQTT.ino</span>
+                  </div>
+                  <div class="editor-lines">
+                    <div class="ed-line"><span class="c-pre">#include</span> &lt;WiFi.h&gt;</div>
+                    <div class="ed-line"><span class="c-pre">#include</span> &lt;PubSubClient.h&gt;</div>
+                    <div class="ed-line"><span class="c-comment">// Live class demonstration code...</span></div>
+                    <div class="ed-line"><span class="c-type">void</span> <span class="c-func">setup</span>() {</div>
+                    <div class="ed-line">&nbsp;&nbsp;<span class="c-func">Serial.begin</span>(<span class="c-val">115200</span>);</div>
+                    <div class="ed-line">&nbsp;&nbsp;<span class="c-func">WiFi.begin</span>(<span class="c-str">"Spaektech_IoT"</span>, <span class="c-str">"********"</span>);</div>
+                    <div class="ed-line">}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="player-controls">
+                <button class="player-ctrl-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+                <div class="player-progress-bar">
+                  <div class="player-progress-fill" style="width: 35%;"></div>
+                </div>
+                <span class="player-time">00:45 / 03:00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right: Today's Agenda & Live Chat Feed -->
+        <div class="portal-info-panel">
+          <div class="agenda-card">
+            <h4>Live Session Information</h4>
+            <div class="agenda-details">
+              <div class="agenda-item">
+                <span class="ag-lbl">Scheduled Start:</span>
+                <span class="ag-val">June 20, 2026 at 10:00 AM IST</span>
+              </div>
+              <div class="agenda-item">
+                <span class="ag-lbl">Agenda Topics:</span>
+                <span class="ag-val">Electronics basics, ESP32 wiring, MQTT protocols, cloud integration.</span>
+              </div>
+              <div class="agenda-item">
+                <span class="ag-lbl">Current Batch status:</span>
+                <span class="ag-val" id="batch-status-text">Pending Start (Registration Active)</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="live-chat-panel">
+            <div class="chat-header">STUDENT LIVE Q&amp;A FEED</div>
+            <div class="chat-messages" id="chat-messages-container">
+              <div class="chat-msg system">Portal locked. Chat will become active once live session starts.</div>
+            </div>
+            <div class="chat-input-area">
+              <input type="text" placeholder="Type a message..." disabled id="chat-input-box">
+              <button disabled id="chat-send-btn">Send</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -103,77 +314,101 @@
         <p class="section-desc">Get comprehensive, industry-relevant knowledge packed into 8 core modules designed to take you from a beginner to a confident IoT developer.</p>
       </div>
       
-      <div class="curriculum-grid">
-        <!-- Card 1 -->
-        <div class="curriculum-card">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line></svg>
+      <div class="timeline-container">
+        <!-- Module 1 -->
+        <div class="timeline-node">
+          <div class="timeline-badge">1</div>
+          <div class="timeline-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line></svg>
+            </div>
+            <h3 class="card-title">ESP32 Programming</h3>
+            <p class="card-body">Master writing firmware for the powerful ESP32 SoC, managing GPIOs, interrupts, timers, and multi-core capabilities using the Arduino framework.</p>
           </div>
-          <h3 class="card-title">ESP32 Programming</h3>
-          <p class="card-body">Master writing firmware for the powerful ESP32 SoC, managing GPIOs, interrupts, timers, and multi-core capabilities using the Arduino framework.</p>
         </div>
         
-        <!-- Card 2 -->
-        <div class="curriculum-card">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path><circle cx="5" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+        <!-- Module 2 -->
+        <div class="timeline-node">
+          <div class="timeline-badge">2</div>
+          <div class="timeline-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path><circle cx="5" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+            </div>
+            <h3 class="card-title">Electronics Fundamentals</h3>
+            <p class="card-body">Understand circuits, current, voltage, resistance, pull-up/pull-down configurations, breadboarding, and how to safely wire microcontrollers.</p>
           </div>
-          <h3 class="card-title">Electronics Fundamentals</h3>
-          <p class="card-body">Understand circuits, current, voltage, resistance, pull-up/pull-down configurations, breadboarding, and how to safely wire microcontrollers.</p>
         </div>
         
-        <!-- Card 3 -->
-        <div class="curriculum-card">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path><path d="M4.93 19.07l2.83-2.83"></path><path d="M16.24 7.76l2.83-2.83"></path></svg>
+        <!-- Module 3 -->
+        <div class="timeline-node">
+          <div class="timeline-badge">3</div>
+          <div class="timeline-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path><path d="M4.93 19.07l2.83-2.83"></path><path d="M16.24 7.76l2.83-2.83"></path></svg>
+            </div>
+            <h3 class="card-title">Sensors & Actuators</h3>
+            <p class="card-body">Interface with real-world sensors (temperature, humidity, motion, ultrasonic) and control actuators like relays, buzzers, and servo motors.</p>
           </div>
-          <h3 class="card-title">Sensors & Actuators</h3>
-          <p class="card-body">Interface with real-world sensors (temperature, humidity, motion, ultrasonic) and control actuators like relays, buzzers, and servo motors.</p>
         </div>
         
-        <!-- Card 4 -->
-        <div class="curriculum-card">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.58 16.14a7 7 0 0 1 6.84 0"></path><circle cx="12" cy="20" r="1"></circle></svg>
+        <!-- Module 4 -->
+        <div class="timeline-node">
+          <div class="timeline-badge">4</div>
+          <div class="timeline-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.58 16.14a7 7 0 0 1 6.84 0"></path><circle cx="12" cy="20" r="1"></circle></svg>
+            </div>
+            <h3 class="card-title">IoT & Cloud Connectivity</h3>
+            <p class="card-body">Connect your physical hardware to cloud networks, manage Wi-Fi states, and send telemetry data to cloud analytics platforms securely.</p>
           </div>
-          <h3 class="card-title">IoT & Cloud Connectivity</h3>
-          <p class="card-body">Connect your physical hardware to cloud networks, manage Wi-Fi states, and send telemetry data to cloud analytics platforms securely.</p>
         </div>
         
-        <!-- Card 5 -->
-        <div class="curriculum-card">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <!-- Module 5 -->
+        <div class="timeline-node">
+          <div class="timeline-badge">5</div>
+          <div class="timeline-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3 class="card-title">MQTT Protocol</h3>
+            <p class="card-body">Deep-dive into the standard publish-subscribe protocol of IoT. Set up MQTT brokers, publish sensor payloads, and subscribe to control commands.</p>
           </div>
-          <h3 class="card-title">MQTT Protocol</h3>
-          <p class="card-body">Deep-dive into the standard publish-subscribe protocol of IoT. Set up MQTT brokers, publish sensor payloads, and subscribe to control commands.</p>
         </div>
         
-        <!-- Card 6 -->
-        <div class="curriculum-card">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <!-- Module 6 -->
+        <div class="timeline-node">
+          <div class="timeline-badge">6</div>
+          <div class="timeline-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </div>
+            <h3 class="card-title">Smart Home Automation</h3>
+            <p class="card-body">Build local control networks, set up web servers on the ESP32, and integrate mobile dashboards to toggle home appliances over the network.</p>
           </div>
-          <h3 class="card-title">Smart Home Automation</h3>
-          <p class="card-body">Build local control networks, set up web servers on the ESP32, and integrate mobile dashboards to toggle home appliances over the network.</p>
         </div>
         
-        <!-- Card 7 -->
-        <div class="curriculum-card">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+        <!-- Module 7 -->
+        <div class="timeline-node">
+          <div class="timeline-badge">7</div>
+          <div class="timeline-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3 class="card-title">Real-World Projects</h3>
+            <p class="card-body">Apply concepts practically by building complete systems like Smart Weather Stations, Remote Energy Toggles, and Security Alarms.</p>
           </div>
-          <h3 class="card-title">Real-World Projects</h3>
-          <p class="card-body">Apply concepts practically by building complete systems like Smart Weather Stations, Remote Energy Toggles, and Security Alarms.</p>
         </div>
         
-        <!-- Card 8 -->
-        <div class="curriculum-card">
-          <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+        <!-- Module 8 -->
+        <div class="timeline-node">
+          <div class="timeline-badge">8</div>
+          <div class="timeline-card">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+            </div>
+            <h3 class="card-title">Certificate of Completion</h3>
+            <p class="card-body">Validate your skills. Receive an official certificate of completion from Spaektech to showcase on your LinkedIn profile and resume.</p>
           </div>
-          <h3 class="card-title">Certificate of Completion</h3>
-          <p class="card-body">Validate your skills. Receive an official certificate of completion from Spaektech to showcase on your LinkedIn profile and resume.</p>
         </div>
       </div>
     </div>
@@ -263,7 +498,7 @@
       <div class="section-header">
         <span class="section-tagline">How to Join</span>
         <h2 class="section-title">Registration Steps</h2>
-        <p class="section-desc">Join the 30-Hour Online IoT Course in three simple steps.</p>
+        <p class="section-desc">Join the 30-Hour Online IoT Course in three simple steps. <strong>Live classes start June 20 &mdash; hurry up!</strong></p>
       </div>
 
       <div class="register-grid">
@@ -312,6 +547,7 @@
             <div class="ticket-glow"></div>
             <div class="ticket-top">
               <span class="ticket-badge" id="ticket-badge">Official GPay QR</span>
+              <div class="ticket-date-badge">Live Classes Start June 20</div>
               <h3>Yogesh Mene</h3>
               <p class="ticket-duration" id="ticket-price-sub">Scan to pay Early Bird fee: ₹499</p>
             </div>
@@ -369,7 +605,8 @@
       <div class="footer-links">
         <h4>Navigation</h4>
         <a href="#home">Home</a>
-        <a href="#about">Curriculum</a>
+        <a href="#live-portal">Live Portal</a>
+        <a href="#about">Syllabus</a>
         <a href="#trainer">Trainer</a>
         <a href="#register-section">Register</a>
       </div>
