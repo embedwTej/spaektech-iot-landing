@@ -49,6 +49,7 @@ body.no-banner {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -309,7 +310,7 @@ a {
 
 /* --- Hero Section --- */
 .hero {
-  padding: 100px 0 90px 0;
+  padding: calc(var(--header-height) + 40px) 0 90px 0;
   position: relative;
   overflow: hidden;
 }
@@ -1519,6 +1520,8 @@ input:checked + .slider-round:before {
 }
 
 .btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
   background-color: var(--success-green);
   color: var(--bg-primary);
   gap: 8px;
@@ -1821,124 +1824,507 @@ input:checked + .slider-round:before {
 }
 
 /* --- Responsive Media Queries --- */
+
+/* ---- Tablet (≤992px) ---- */
 @media (max-width: 992px) {
+
+  /* Hero */
+  .hero {
+    padding: 72px 0 64px 0;
+  }
+
   .hero-container {
     grid-template-columns: 1fr;
     gap: 48px;
   }
-  
+
   .hero-content {
     text-align: center;
   }
-  
-  .badge-container, .hero-cta-group, .hero-stats {
+
+  .badge-container,
+  .hero-cta-group,
+  .hero-stats {
     justify-content: center;
   }
-  
+
   .hero-subtitle {
     margin-left: auto;
     margin-right: auto;
   }
-  
+
+  .hero-visual {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .iot-simulator-card {
+    max-width: 500px;
+    width: 100%;
+  }
+
+  /* Portal */
+  .portal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Trainer */
   .trainer-card {
     grid-template-columns: 1fr;
     gap: 36px;
     padding: 32px;
+    text-align: center;
   }
-  
+
+  .trainer-skills {
+    justify-content: center;
+  }
+
+  /* Registration */
   .register-grid {
     grid-template-columns: 1fr;
     gap: 40px;
   }
-  
-  .portal-grid {
-    grid-template-columns: 1fr;
+
+  .pricing-card-container {
+    justify-content: center;
   }
-  
+
+  /* Footer */
   .footer-container {
     grid-template-columns: 1fr 1fr;
     gap: 36px;
   }
-  
+
   .footer-logo-section {
     grid-column: span 2;
+    text-align: center;
   }
 }
 
+/* ---- Mobile (≤768px) ---- */
 @media (max-width: 768px) {
   :root {
     --header-height: 70px;
   }
-  
+
+  /* Typography */
   .section-title {
-    font-size: 30px;
+    font-size: 28px;
   }
-  
+
   .hero-title {
-    font-size: 36px;
+    font-size: 32px;
   }
-  
+
+  .tagline-rotate {
+    font-size: 11px;
+  }
+
+  /* Nav */
   .menu-toggle {
     display: flex;
   }
-  
+
   .nav-menu {
     position: fixed;
-    top: var(--header-height);
+    top: calc(var(--banner-height) + var(--header-height));
     left: -100%;
     width: 100%;
-    height: calc(100vh - var(--header-height));
-    background: var(--bg-primary);
+    height: calc(100vh - var(--banner-height) - var(--header-height));
+    background: rgba(3, 4, 7, 0.98);
     flex-direction: column;
     padding: 44px 24px;
     gap: 28px;
     transition: var(--transition-smooth);
     border-top: 1px solid var(--card-border);
+    z-index: 99;
   }
-  
+
   .nav-menu.active {
     left: 0;
   }
-  
+
   .menu-toggle.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
-  
+
   .menu-toggle.active span:nth-child(2) {
     opacity: 0;
   }
-  
+
   .menu-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(6px, -6px);
   }
-}
 
-@media (max-width: 576px) {
+  /* Hero */
+  .hero {
+    padding: 56px 0 52px 0;
+  }
+
+  .hero-title {
+    font-size: 30px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+  }
+
+  .badge-container {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hero-stats {
+    gap: 24px;
+  }
+
+  .stat-num {
+    font-size: 24px;
+  }
+
+  /* IoT Simulator */
+  .iot-simulator-card {
+    max-width: 100%;
+  }
+
+  .simulator-body {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .oled-graph-container canvas {
+    width: 100% !important;
+    height: 60px !important;
+  }
+
+  .console-lines {
+    height: 80px;
+  }
+
+  /* Live Portal */
+  .live-portal {
+    padding: 64px 0;
+  }
+
+  .portal-locked-overlay {
+    padding: 24px 20px;
+  }
+
+  .portal-locked-overlay h3 {
+    font-size: 20px;
+  }
+
+  .countdown-timer {
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding: 12px 16px;
+    justify-content: center;
+  }
+
+  .countdown-unit {
+    min-width: 40px;
+  }
+
+  .countdown-unit span:first-child {
+    font-size: 22px;
+  }
+
+  .portal-player-container {
+    min-height: 320px;
+  }
+
+  .agenda-item {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ag-val {
+    text-align: left;
+    max-width: 100%;
+  }
+
+  /* Curriculum Timeline */
+  .curriculum {
+    padding: 64px 0;
+  }
+
+  .timeline-container {
+    padding-left: 28px;
+  }
+
+  .timeline-card {
+    padding: 18px 20px;
+    gap: 16px;
+  }
+
+  .card-title {
+    font-size: 16px;
+  }
+
+  .card-body {
+    font-size: 13px;
+  }
+
+  /* Trainer */
+  .trainer-section {
+    padding: 64px 0;
+  }
+
+  .trainer-card {
+    padding: 24px;
+    gap: 28px;
+  }
+
+  .trainer-name {
+    font-size: 26px;
+  }
+
+  .avatar-glow {
+    width: 140px;
+    height: 140px;
+  }
+
+  /* Audience */
+  .audience-section {
+    padding: 64px 0;
+  }
+
+  .audience-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .audience-card {
+    padding: 20px;
+  }
+
+  /* Registration */
+  .register-section {
+    padding: 64px 0;
+  }
+
+  .step-card {
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .step-info h3 {
+    font-size: 16px;
+  }
+
+  .step-btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .upi-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .ticket-card {
+    max-width: 100%;
+  }
+
+  /* Footer */
   .footer-container {
     grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
   }
-  
+
   .footer-logo-section {
     grid-column: span 1;
   }
-  
+
   .footer-bottom-container {
     flex-direction: column;
     gap: 12px;
     text-align: center;
   }
-  
+
+  /* Cursor glow off on touch */
+  .cursor-glow {
+    display: none;
+  }
+
+  :root {
+    --banner-height: 54px;
+  }
+
+  .announcement-banner {
+    font-size: 12px;
+    padding: 0 45px 0 16px;
+    text-align: center;
+  }
+
+  .announcement-banner-content {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .banner-link {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 2px;
+  }
+}
+
+/* ---- Small Mobile (≤576px) ---- */
+@media (max-width: 576px) {
+
+  .container {
+    padding: 0 16px;
+  }
+  .hero-title {
+    font-size: 26px;
+  }
+
+  .section-title {
+    font-size: 24px;
+  }
+
+  .section-desc {
+    font-size: 14px;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-top: 20px;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .stat-item {
+    align-items: center;
+  }
+
+  /* Badges wrap tightly */
+  .hero-badge-live {
+    font-size: 11px;
+  }
+
+  /* Simulator full width */
+  .virtual-relays {
+    padding: 10px 12px;
+  }
+
+  .relay-label {
+    font-size: 11px;
+  }
+
+  /* Countdown compact */
   .countdown-timer {
-    padding: 12px 16px;
-    gap: 10px;
+    gap: 6px;
+    padding: 10px 12px;
   }
-  
+
   .countdown-unit {
-    min-width: 40px;
+    min-width: 32px;
   }
-  
+
   .countdown-unit span:first-child {
-    font-size: 20px;
+    font-size: 18px;
+  }
+
+  .countdown-divider {
+    font-size: 18px;
+    padding-bottom: 12px;
+  }
+
+  /* Timeline tighter */
+  .timeline-container {
+    padding-left: 24px;
+  }
+
+  .timeline-badge {
+    left: -24px;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .timeline-card {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  /* Audience single column */
+  .audience-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* Ticket */
+  .ticket-top {
+    padding: 20px 16px;
+  }
+
+  .qr-bottom {
+    padding: 16px;
+  }
+
+  .upi-details-list {
+    padding-top: 8px !important;
+  }
+
+  /* Footer */
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .footer-bottom-container {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
+
+/* ---- Very Small (≤400px) ---- */
+@media (max-width: 400px) {
+  .hero-title {
+    font-size: 22px;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .trainer-card {
+    padding: 16px;
+  }
+
+  .step-card {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .step-num {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .logo {
+    font-size: 18px;
   }
 }
 
@@ -2062,33 +2448,7 @@ body.no-banner .announcement-banner {
   transform: translateY(0) !important;
 }
 
-@media (max-width: 768px) {
-  .cursor-glow {
-    display: none;
-  }
-  
-  :root {
-    --banner-height: 54px;
-  }
-  
-  .announcement-banner {
-    font-size: 12px;
-    padding: 0 45px 0 16px;
-    text-align: center;
-  }
-  
-  .announcement-banner-content {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 4px;
-  }
-  
-  .banner-link {
-    margin-left: 0;
-    width: 100%;
-    margin-top: 2px;
-  }
-}
+/* Duplicate removed — all responsive rules consolidated above */
 
 /* --- Shiny Button Effect --- */
 .btn-primary {
