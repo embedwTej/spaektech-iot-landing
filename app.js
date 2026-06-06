@@ -613,7 +613,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* --- 3. Certificate Verification logic --- */
+  /* --- 3. Certificate Local Database Initialization --- */
+  const defaultCertificates = [
+    { id: "SPK-IOT-2026-01/100001", name: "Rahul S.", project: "Smart Energy Meter node", site: "https://energy.spaektech.com" },
+    { id: "SPK-IOT-2026-01/100002", name: "Aravind K.", project: "ESP32 Conic Web Controller", site: "https://control.spaektech.com" },
+    { id: "SPK-IOT-2026-01/100003", name: "Sneha R.", project: "MQTT Telemetry Weather Node", site: "https://weather.spaektech.com" },
+    { id: "SPK-IOT-2026-01/100004", name: "Karan Patel", project: "Smart Relays Alexa Home Control", site: "https://relays.spaektech.com" },
+    { id: "SPK-IOT-2026-01/100005", name: "Priyanka Verma", project: "FreeRTOS Smart Security Alarm", site: "https://alarm.spaektech.com" }
+  ];
+
+  // Initialize DB if empty
+  if (!localStorage.getItem('spaektech-certificates')) {
+    localStorage.setItem('spaektech-certificates', JSON.stringify(defaultCertificates));
+  }
+
+  // Load database helper
+  const getCertificatesDB = () => {
+    return JSON.parse(localStorage.getItem('spaektech-certificates')) || [];
+  };
+
+  /* --- 4. Certificate Verification Logic --- */
   const certInput = document.getElementById('certificate-id-input');
   const certVerifyBtn = document.getElementById('certificate-verify-btn');
   const certResultContainer = document.getElementById('verify-result-container');
@@ -639,15 +658,6 @@ document.addEventListener('DOMContentLoaded', () => {
       certPreviewCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
     });
   }
-
-  // Verification lookup names map for graduates
-  const mockCertNames = {
-    "100001": "Rahul S.",
-    "100002": "Aravind K.",
-    "100003": "Sneha R.",
-    "100004": "Karan Patel",
-    "100005": "Priyanka Verma"
-  };
 
   const handleVerifyCertificate = () => {
     if (!certInput || !certResultContainer) return;
@@ -683,26 +693,73 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const certNumStr = match[1];
-    const certNum = parseInt(certNumStr, 10);
+    // Fetch database
+    const currentDB = getCertificatesDB();
+    const uppercaseId = certIdRaw.toUpperCase();
+    const matchedRecord = currentDB.find(item => item.id.toUpperCase() === uppercaseId);
 
-    if (certNum < 100000) {
+    if (!matchedRecord) {
       certResultContainer.style.display = 'block';
       certResultContainer.innerHTML = `
         <div class="result-card error">
           <div class="result-header">
             <span class="status-badge"><span class="status-led"></span>Verification Failed</span>
           </div>
-          <p class="result-error-msg">This Certificate ID was not found in our database. Valid IDs begin from 100000 onwards.</p>
+          <p class="result-error-msg">This Certificate ID is not registered in our student database. Please verify the ID or contact administration.</p>
         </div>
       `;
       return;
     }
 
     // Success state
-    const matchedName = mockCertNames[certNumStr] || "Verified IoT Graduate";
-    const formattedId = `SPK-IOT-2026-01/${certNumStr}`;
+    const hasProject = matchedRecord.project && matchedRecord.project.trim() !== "";
+    const hasSite = matchedRecord.site && matchedRecord.site.trim() !== "";
     
+    let detailsHtml = `
+      <div class="result-row">
+        <span class="result-lbl">Certificate ID:</span>
+        <span class="result-val highlight">${matchedRecord.id}</span>
+      </div>
+      <div class="result-row">
+        <span class="result-lbl">Student Name:</span>
+        <span class="result-val verified-name">${matchedRecord.name}</span>
+      </div>
+      <div class="result-row">
+        <span class="result-lbl">Course Completed:</span>
+        <span class="result-val">30-Hour Industrial IoT Training</span>
+      </div>
+    `;
+
+    if (hasProject) {
+      detailsHtml += `
+        <div class="result-row">
+          <span class="result-lbl">Project Contributed:</span>
+          <span class="result-val">${matchedRecord.project}</span>
+        </div>
+      `;
+    }
+
+    if (hasSite) {
+      // Ensure absolute URL
+      let url = matchedRecord.site;
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+      }
+      detailsHtml += `
+        <div class="result-row">
+          <span class="result-lbl">Project Deployment:</span>
+          <span class="result-val"><a href="${url}" target="_blank" class="result-val highlight" style="text-decoration: underline; color: var(--accent-cyan);">Open Link &rarr;</a></span>
+        </div>
+      `;
+    }
+
+    detailsHtml += `
+      <div class="result-row">
+        <span class="result-lbl">Verification Status:</span>
+        <span class="result-val" style="color: var(--success-green); font-weight: 700;">ACTIVE &amp; VALID</span>
+      </div>
+    `;
+
     certResultContainer.style.display = 'block';
     certResultContainer.innerHTML = `
       <div class="result-card success">
@@ -711,26 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </div>
         <div class="result-details">
-          <div class="result-row">
-            <span class="result-lbl">Certificate ID:</span>
-            <span class="result-val highlight">${formattedId}</span>
-          </div>
-          <div class="result-row">
-            <span class="result-lbl">Student Name:</span>
-            <span class="result-val verified-name">${matchedName}</span>
-          </div>
-          <div class="result-row">
-            <span class="result-lbl">Course Completed:</span>
-            <span class="result-val">30-Hour Industrial IoT Training</span>
-          </div>
-          <div class="result-row">
-            <span class="result-lbl">Instructor:</span>
-            <span class="result-val">Mr. Yogesh Mene</span>
-          </div>
-          <div class="result-row">
-            <span class="result-lbl">Verification Status:</span>
-            <span class="result-val" style="color: var(--success-green); font-weight: 700;">ACTIVE &amp; VALID</span>
-          </div>
+          ${detailsHtml}
         </div>
       </div>
     `;
@@ -743,6 +781,382 @@ document.addEventListener('DOMContentLoaded', () => {
   if (certInput) {
     certInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') handleVerifyCertificate();
+    });
+  }
+
+  /* --- 5. Admin Panel Logic --- */
+  const brandLogo = document.getElementById('brand-logo');
+  const adminModal = document.getElementById('admin-modal');
+  
+  const adminAuthView = document.getElementById('admin-auth-view');
+  const adminPanelView = document.getElementById('admin-panel-view');
+  
+  const adminAuthCloseBtn = document.getElementById('admin-auth-close-btn');
+  const adminPanelCloseBtn = document.getElementById('admin-panel-close-btn');
+  
+  const adminPasscodeField = document.getElementById('admin-passcode-input');
+  const adminAuthBtn = document.getElementById('admin-auth-btn');
+  const adminAuthError = document.getElementById('admin-auth-error');
+
+  const adminDbCount = document.getElementById('admin-db-count');
+  const adminDbSearch = document.getElementById('admin-db-search');
+  const adminDbTableBody = document.getElementById('admin-db-table-body');
+  
+  const adminAddId = document.getElementById('admin-add-id');
+  const adminAddName = document.getElementById('admin-add-name');
+  const adminAddProject = document.getElementById('admin-add-project');
+  const adminAddLink = document.getElementById('admin-add-link');
+  const adminAddBtn = document.getElementById('admin-add-student-btn');
+
+  const adminClearDbBtn = document.getElementById('admin-clear-db-btn');
+  const adminExportDbBtn = document.getElementById('admin-export-db-btn');
+  
+  const adminExcelZone = document.getElementById('admin-excel-zone');
+  const adminExcelFileInput = document.getElementById('admin-excel-file-input');
+  const adminUploadStatus = document.getElementById('admin-upload-status');
+
+  let logoClicks = 0;
+  let logoClickTimeout;
+
+  // Track clicks on logo to trigger admin panel
+  if (brandLogo) {
+    brandLogo.addEventListener('click', (e) => {
+      e.preventDefault(); // prevent navigation
+      logoClicks++;
+      clearTimeout(logoClickTimeout);
+      
+      if (logoClicks >= 5) {
+        logoClicks = 0;
+        openAdminModal();
+      } else {
+        logoClickTimeout = setTimeout(() => {
+          logoClicks = 0;
+        }, 3000);
+      }
+    });
+  }
+
+  const openAdminModal = () => {
+    if (!adminModal) return;
+    adminModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Lock background scroll
+    
+    // Reset view states
+    adminAuthView.style.display = 'block';
+    adminPanelView.style.display = 'none';
+    adminAuthError.style.display = 'none';
+    
+    if (adminPasscodeField) {
+      adminPasscodeField.value = '';
+      adminPasscodeField.focus();
+    }
+  };
+
+  const closeAdminModal = () => {
+    if (!adminModal) return;
+    adminModal.style.display = 'none';
+    document.body.style.overflow = ''; // Restore scroll
+  };
+
+  if (adminAuthCloseBtn) adminAuthCloseBtn.addEventListener('click', closeAdminModal);
+  if (adminPanelCloseBtn) adminPanelCloseBtn.addEventListener('click', closeAdminModal);
+
+  // Close modal when clicking outside card
+  if (adminModal) {
+    adminModal.addEventListener('click', (e) => {
+      if (e.target === adminModal) closeAdminModal();
+    });
+  }
+
+  // Handle Passcode verification
+  const handleAdminAuth = () => {
+    if (!adminPasscodeField) return;
+    const passcode = adminPasscodeField.value;
+    
+    // Passcode validation
+    if (passcode === 'spaektechadmin26') {
+      adminAuthView.style.display = 'none';
+      adminPanelView.style.display = 'block';
+      renderAdminTable();
+    } else {
+      adminAuthError.style.display = 'block';
+      adminPasscodeField.focus();
+    }
+  };
+
+  if (adminAuthBtn) adminAuthBtn.addEventListener('click', handleAdminAuth);
+  if (adminPasscodeField) {
+    adminPasscodeField.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleAdminAuth();
+    });
+  }
+
+  // Render Table rows
+  const renderAdminTable = () => {
+    if (!adminDbTableBody) return;
+    adminDbTableBody.innerHTML = '';
+    
+    const currentDB = getCertificatesDB();
+    const searchQuery = adminDbSearch ? adminDbSearch.value.trim().toLowerCase() : '';
+    
+    let filteredDB = currentDB;
+    if (searchQuery) {
+      filteredDB = currentDB.filter(item => 
+        item.name.toLowerCase().includes(searchQuery) || 
+        item.id.toLowerCase().includes(searchQuery) ||
+        (item.project && item.project.toLowerCase().includes(searchQuery))
+      );
+    }
+
+    if (adminDbCount) {
+      adminDbCount.textContent = filteredDB.length;
+    }
+
+    if (filteredDB.length === 0) {
+      adminDbTableBody.innerHTML = `
+        <tr>
+          <td colspan="4" style="text-align: center; color: var(--text-dark); padding: 20px;">No student records found.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    filteredDB.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><code>${item.id}</code></td>
+        <td>${item.name}</td>
+        <td>${item.project || '<span style="color:var(--text-dark)">None</span>'}</td>
+        <td>
+          <button class="btn-delete" data-id="${item.id}" title="Delete Record">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+          </button>
+        </td>
+      `;
+      adminDbTableBody.appendChild(tr);
+    });
+
+    // Bind delete buttons
+    const deleteBtns = adminDbTableBody.querySelectorAll('.btn-delete');
+    deleteBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idToDelete = btn.getAttribute('data-id');
+        deleteStudent(idToDelete);
+      });
+    });
+  };
+
+  const deleteStudent = (id) => {
+    let currentDB = getCertificatesDB();
+    currentDB = currentDB.filter(item => item.id !== id);
+    localStorage.setItem('spaektech-certificates', JSON.stringify(currentDB));
+    renderAdminTable();
+  };
+
+  // Bind Search Filter
+  if (adminDbSearch) {
+    adminDbSearch.addEventListener('input', renderAdminTable);
+  }
+
+  // Handle Manual Student Add
+  const handleAddStudent = () => {
+    if (!adminAddId || !adminAddName) return;
+    const certId = adminAddId.value.trim().toUpperCase();
+    const name = adminAddName.value.trim();
+    const project = adminAddProject ? adminAddProject.value.trim() : '';
+    const site = adminAddLink ? adminAddLink.value.trim() : '';
+
+    if (!certId || !name) {
+      alert("Certificate ID and Student Name are required.");
+      return;
+    }
+
+    // Format validation
+    const formatRegex = /^SPK-IOT-2026-01\/(\d+)$/;
+    if (!certId.match(formatRegex)) {
+      alert("Certificate ID format must match: SPK-IOT-2026-01/100001");
+      return;
+    }
+
+    let currentDB = getCertificatesDB();
+    const existingIndex = currentDB.findIndex(item => item.id.toUpperCase() === certId);
+
+    const record = { id: certId, name, project, site };
+
+    if (existingIndex > -1) {
+      if (!confirm("Certificate ID already exists. Overwrite student details?")) return;
+      currentDB[existingIndex] = record;
+    } else {
+      currentDB.push(record);
+    }
+
+    localStorage.setItem('spaektech-certificates', JSON.stringify(currentDB));
+    renderAdminTable();
+
+    // Clear inputs
+    adminAddId.value = '';
+    adminAddName.value = '';
+    if (adminAddProject) adminAddProject.value = '';
+    if (adminAddLink) adminAddLink.value = '';
+  };
+
+  if (adminAddBtn) adminAddBtn.addEventListener('click', handleAddStudent);
+
+  // Clear Database Handler
+  if (adminClearDbBtn) {
+    adminClearDbBtn.addEventListener('click', () => {
+      if (confirm("WARNING: Are you sure you want to delete ALL certificate records? This cannot be undone.")) {
+        localStorage.setItem('spaektech-certificates', JSON.stringify([]));
+        renderAdminTable();
+      }
+    });
+  }
+
+  // Export JSON Database Handler
+  if (adminExportDbBtn) {
+    adminExportDbBtn.addEventListener('click', () => {
+      const currentDB = getCertificatesDB();
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentDB, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "spaektech-certificates.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    });
+  }
+
+  // Excel File Upload Handlers
+  const handleExcelUpload = (files) => {
+    if (!files || files.length === 0) return;
+    const file = files[0];
+    
+    // Check file extension
+    const extension = file.name.split('.').pop().toLowerCase();
+    if (!['xlsx', 'xls', 'csv'].includes(extension)) {
+      if (adminUploadStatus) {
+        adminUploadStatus.textContent = "Unsupported file type. Please upload an Excel (.xlsx, .xls) or CSV (.csv) file.";
+        adminUploadStatus.style.color = "var(--danger-red)";
+      }
+      return;
+    }
+    
+    // Parse using SheetJS
+    const reader = new FileReader();
+    
+    if (adminUploadStatus) {
+      adminUploadStatus.textContent = "Reading sheet...";
+      adminUploadStatus.style.color = "var(--accent-cyan)";
+    }
+    
+    reader.onload = (e) => {
+      try {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        
+        // Convert sheet to json
+        const rows = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+        
+        if (!rows || rows.length === 0) {
+          throw new Error("No data rows found in the sheet.");
+        }
+        
+        let currentDB = getCertificatesDB();
+        let importedCount = 0;
+        let errorsCount = 0;
+        
+        rows.forEach(row => {
+          let certId = "";
+          let studentName = "";
+          let projectName = "";
+          let siteLink = "";
+          
+          // Header-insensitive normalization
+          Object.keys(row).forEach(key => {
+            const normalizedKey = key.trim().toLowerCase();
+            
+            if (normalizedKey.includes('id') || normalizedKey.includes('certificate')) {
+              certId = String(row[key]).trim();
+            } else if (normalizedKey.includes('name') || normalizedKey.includes('student')) {
+              studentName = String(row[key]).trim();
+            } else if (normalizedKey.includes('project')) {
+              projectName = String(row[key]).trim();
+            } else if (normalizedKey.includes('site') || normalizedKey.includes('link') || normalizedKey.includes('url')) {
+              siteLink = String(row[key]).trim();
+            }
+          });
+          
+          const formatRegex = /^SPK-IOT-2026-01\/(\d+)$/i;
+          if (certId && certId.match(formatRegex) && studentName) {
+            const uppercaseId = certId.toUpperCase();
+            const existingIndex = currentDB.findIndex(item => item.id.toUpperCase() === uppercaseId);
+            
+            const record = {
+              id: uppercaseId,
+              name: studentName,
+              project: projectName,
+              site: siteLink
+            };
+            
+            if (existingIndex > -1) {
+              currentDB[existingIndex] = record;
+            } else {
+              currentDB.push(record);
+            }
+            importedCount++;
+          } else {
+            errorsCount++;
+          }
+        });
+        
+        localStorage.setItem('spaektech-certificates', JSON.stringify(currentDB));
+        renderAdminTable();
+        
+        if (adminUploadStatus) {
+          adminUploadStatus.innerHTML = `Successfully loaded <strong>${importedCount}</strong> records.`;
+          if (errorsCount > 0) {
+            adminUploadStatus.innerHTML += ` <span style="color:var(--danger-red)">(${errorsCount} empty/invalid rows skipped)</span>`;
+          }
+          adminUploadStatus.style.color = "var(--success-green)";
+        }
+      } catch (err) {
+        console.error(err);
+        if (adminUploadStatus) {
+          adminUploadStatus.textContent = "Error parsing file: " + err.message;
+          adminUploadStatus.style.color = "var(--danger-red)";
+        }
+      }
+    };
+    
+    reader.readAsArrayBuffer(file);
+  };
+
+  // Uploader Drop/Click Events
+  if (adminExcelZone && adminExcelFileInput) {
+    adminExcelZone.addEventListener('click', () => {
+      adminExcelFileInput.click();
+    });
+
+    adminExcelFileInput.addEventListener('change', (e) => {
+      handleExcelUpload(e.target.files);
+    });
+
+    adminExcelZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      adminExcelZone.classList.add('dragover');
+    });
+
+    adminExcelZone.addEventListener('dragleave', () => {
+      adminExcelZone.classList.remove('dragover');
+    });
+
+    adminExcelZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      adminExcelZone.classList.remove('dragover');
+      handleExcelUpload(e.dataTransfer.files);
     });
   }
 

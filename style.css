@@ -2994,6 +2994,345 @@ body.no-banner .announcement-banner {
   }
 }
 
+
+/* ====================================================
+   ADMIN DASHBOARD MODAL STYLES
+   ==================================================== */
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(3, 4, 7, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.admin-modal-card {
+  width: 100%;
+  max-width: 1100px;
+  background: rgba(9, 10, 15, 0.95);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(138, 43, 226, 0.15);
+  overflow: hidden;
+  animation: modalScaleUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes modalScaleUp {
+  0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.admin-modal-header {
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-badge {
+  background: rgba(52, 199, 89, 0.1);
+  border: 1px solid rgba(52, 199, 89, 0.3);
+  color: var(--success-green);
+  padding: 3px 8px;
+  border-radius: 50px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.admin-close-btn:hover {
+  color: var(--danger-red);
+  transform: scale(1.1);
+}
+
+.admin-modal-body {
+  padding: 24px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.admin-instruction {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.admin-error-text {
+  color: var(--danger-red);
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Authentication Gate Size Limit */
+#admin-auth-view {
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+/* Grid Layout */
+.admin-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 28px;
+}
+
+.admin-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-card-widget {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-md);
+  padding: 20px;
+}
+
+.admin-card-widget h4 {
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: var(--text-white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
+}
+
+.widget-subtitle {
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+/* Excel File Dropzone */
+.admin-upload-zone {
+  border: 2px dashed rgba(138, 43, 226, 0.3);
+  background: rgba(138, 43, 226, 0.02);
+  border-radius: var(--border-radius-sm);
+  padding: 28px 16px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: var(--transition-smooth);
+}
+
+.admin-upload-zone:hover,
+.admin-upload-zone.dragover {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.05);
+}
+
+.upload-icon {
+  color: var(--accent-purple);
+  transition: var(--transition-smooth);
+}
+
+.admin-upload-zone:hover .upload-icon {
+  color: var(--accent-cyan);
+  transform: translateY(-3px);
+}
+
+.upload-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.upload-formats {
+  font-size: 10px;
+  color: var(--text-dark);
+}
+
+/* Manual Form Fields */
+.admin-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-row label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.form-row input {
+  background: rgba(3, 4, 7, 0.6);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-sm);
+  padding: 8px 12px;
+  color: var(--text-white);
+  font-size: 13px;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.form-row input:focus {
+  border-color: var(--accent-cyan);
+  background: rgba(3, 4, 7, 0.9);
+}
+
+/* Right Content Area */
+.admin-content {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-md);
+  padding: 24px;
+  min-height: 500px;
+}
+
+.content-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.content-header-row h4 {
+  font-size: 16px;
+  color: var(--text-white);
+}
+
+.content-header-row .search-box {
+  width: 280px;
+}
+
+.content-header-row .search-box input {
+  width: 100%;
+  background: rgba(3, 4, 7, 0.6);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-sm);
+  padding: 8px 12px;
+  color: var(--text-white);
+  font-size: 13px;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.content-header-row .search-box input:focus {
+  border-color: var(--accent-cyan);
+  background: rgba(3, 4, 7, 0.9);
+}
+
+/* Database Table */
+.admin-table-container {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-sm);
+  background: rgba(3, 4, 7, 0.2);
+  margin-bottom: 20px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.admin-table th {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 12px 16px;
+  color: var(--text-white);
+  font-weight: 600;
+  border-bottom: 1px solid var(--card-border);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.admin-table td {
+  padding: 12px 16px;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.admin-table tr:hover td {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.admin-table td code {
+  font-family: monospace;
+  color: var(--accent-cyan);
+}
+
+.admin-table .btn-delete {
+  background: transparent;
+  border: none;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.admin-table .btn-delete:hover {
+  color: var(--danger-red);
+  transform: scale(1.1);
+}
+
+.admin-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 20px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ====================================================
    PREFERS REDUCED MOTION
    Disables all animations for users who opt-in to
