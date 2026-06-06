@@ -752,7 +752,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       detailsHtml += `
         <div class="result-row">
-          <span class="result-lbl">Project Deployment:</span>
+          <span class="result-lbl">Project Location:</span>
           <span class="result-val"><a href="${url}" target="_blank" class="result-val highlight" style="text-decoration: underline; color: var(--accent-cyan);">Open Link &rarr;</a></span>
         </div>
       `;
@@ -1124,13 +1124,13 @@ document.addEventListener('DOMContentLoaded', () => {
           Object.keys(row).forEach(key => {
             const normalizedKey = key.trim().toLowerCase();
             
-            if (normalizedKey.includes('id') || normalizedKey.includes('certificate')) {
+            if (normalizedKey.includes('certificate') || normalizedKey === 'id' || normalizedKey.includes('certificate id') || normalizedKey.includes('cert id')) {
               certId = String(row[key]).trim();
-            } else if (normalizedKey.includes('name') || normalizedKey.includes('student')) {
-              studentName = String(row[key]).trim();
             } else if (normalizedKey.includes('project')) {
               projectName = String(row[key]).trim();
-            } else if (normalizedKey.includes('site') || normalizedKey.includes('link') || normalizedKey.includes('url')) {
+            } else if (normalizedKey.includes('student') || normalizedKey === 'name' || normalizedKey.includes('student name')) {
+              studentName = String(row[key]).trim();
+            } else if (normalizedKey.includes('site') || normalizedKey.includes('link') || normalizedKey.includes('url') || normalizedKey.includes('location') || normalizedKey.includes('deploy')) {
               siteLink = String(row[key]).trim();
             }
           });
@@ -1212,7 +1212,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (adminDownloadTemplateBtn) {
     adminDownloadTemplateBtn.addEventListener('click', () => {
       // Define columns
-      const headers = [["Certificate ID", "Student Name", "Project Name", "Site Link"]];
+      const headers = [["Certificate ID", "Student Name", "Project Name", "Project Location"]];
       
       // Sample data
       const sampleRows = [
