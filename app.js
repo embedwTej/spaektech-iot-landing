@@ -745,15 +745,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (hasSite) {
-      // Ensure absolute URL
-      let url = matchedRecord.site;
-      if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        url = 'https://' + url;
-      }
       detailsHtml += `
         <div class="result-row">
           <span class="result-lbl">Project Location:</span>
-          <span class="result-val"><a href="${url}" target="_blank" class="result-val highlight" style="text-decoration: underline; color: var(--accent-cyan);">Open Link &rarr;</a></span>
+          <span class="result-val highlight">${matchedRecord.site}</span>
         </div>
       `;
     }
@@ -1110,7 +1105,7 @@ document.addEventListener('DOMContentLoaded', () => {
           throw new Error("No data rows found in the sheet.");
         }
         
-        let currentDB = getCertificatesDB();
+        let currentDB = []; // Clear existing database to override it with the new Excel upload
         let importedCount = 0;
         let errorsCount = 0;
         
