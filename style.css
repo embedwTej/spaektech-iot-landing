@@ -1,4 +1,4 @@
-/* Spaektech IoT Course Professional Redesign Stylesheet */
+/* SparkTech Lab IoT Course Professional Redesign Stylesheet */
 
 /* --- Design Tokens / System --- */
 :root {
@@ -235,6 +235,14 @@ a {
 
 .logo span {
   color: var(--accent-cyan);
+}
+
+.logo-img-nav {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  margin-right: 8px;
+  filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.3));
 }
 
 .logo-dot {

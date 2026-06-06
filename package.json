@@ -1,7 +1,7 @@
 {
-  "name": "spaektech-iot-landing",
+  "name": "sparktech-iot-landing",
   "version": "1.0.0",
-  "description": "Spaektech Online IoT Course Landing & Registration Portal",
+  "description": "SparkTech Online IoT Course Landing & Registration Portal",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173 --open",
     "build": "vite build",

@@ -1,4 +1,4 @@
-/* Spaektech IoT Course Main Application Script */
+/* SparkTech Lab IoT Course Main Application Script */
 //test
 // =========================================================================
 // WEBSITE CONFIGURATION
@@ -167,13 +167,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const bannerCloseBtn = document.getElementById('banner-close-btn');
 
   if (banner && bannerCloseBtn) {
-    if (localStorage.getItem('spaektech-banner-dismissed') === 'true') {
+    if (localStorage.getItem('sparktech-banner-dismissed') === 'true' || localStorage.getItem('spaektech-banner-dismissed') === 'true') {
       document.body.classList.add('no-banner');
     }
 
     bannerCloseBtn.addEventListener('click', () => {
       document.body.classList.add('no-banner');
-      localStorage.setItem('spaektech-banner-dismissed', 'true');
+      localStorage.setItem('sparktech-banner-dismissed', 'true');
     });
   }
 
@@ -615,21 +615,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* --- 3. Certificate Local Database Initialization --- */
   const defaultCertificates = [
-    { id: "SPK-IOT-2026-01/100001", name: "Rahul S.", project: "Smart Energy Meter node", site: "https://energy.spaektech.com" },
-    { id: "SPK-IOT-2026-01/100002", name: "Aravind K.", project: "ESP32 Conic Web Controller", site: "https://control.spaektech.com" },
-    { id: "SPK-IOT-2026-01/100003", name: "Sneha R.", project: "MQTT Telemetry Weather Node", site: "https://weather.spaektech.com" },
-    { id: "SPK-IOT-2026-01/100004", name: "Karan Patel", project: "Smart Relays Alexa Home Control", site: "https://relays.spaektech.com" },
-    { id: "SPK-IOT-2026-01/100005", name: "Priyanka Verma", project: "FreeRTOS Smart Security Alarm", site: "https://alarm.spaektech.com" }
+    { id: "SPK-IOT-2026-01/100001", name: "Rahul S.", project: "Smart Energy Meter node", site: "https://energy.sparktech.com" },
+    { id: "SPK-IOT-2026-01/100002", name: "Aravind K.", project: "ESP32 Conic Web Controller", site: "https://control.sparktech.com" },
+    { id: "SPK-IOT-2026-01/100003", name: "Sneha R.", project: "MQTT Telemetry Weather Node", site: "https://weather.sparktech.com" },
+    { id: "SPK-IOT-2026-01/100004", name: "Karan Patel", project: "Smart Relays Alexa Home Control", site: "https://relays.sparktech.com" },
+    { id: "SPK-IOT-2026-01/100005", name: "Priyanka Verma", project: "FreeRTOS Smart Security Alarm", site: "https://alarm.sparktech.com" }
   ];
 
-  // Initialize DB if empty
-  if (!localStorage.getItem('spaektech-certificates')) {
-    localStorage.setItem('spaektech-certificates', JSON.stringify(defaultCertificates));
+  // Initialize and migrate DB if needed
+  if (!localStorage.getItem('sparktech-certificates')) {
+    const oldDB = localStorage.getItem('spaektech-certificates');
+    if (oldDB) {
+      localStorage.setItem('sparktech-certificates', oldDB);
+    } else {
+      localStorage.setItem('sparktech-certificates', JSON.stringify(defaultCertificates));
+    }
   }
 
   // Load database helper
   const getCertificatesDB = () => {
-    return JSON.parse(localStorage.getItem('spaektech-certificates')) || [];
+    return JSON.parse(localStorage.getItem('sparktech-certificates')) || [];
   };
 
   /* --- 4. Certificate Verification Logic --- */
@@ -726,7 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       <div class="result-row">
         <span class="result-lbl">Course Completed:</span>
-        <span class="result-val">30-Hour Industrial IoT Training</span>
+        <span class="result-val">30-Hour Industrial IoT Training by SparkTech Lab</span>
       </div>
     `;
 
@@ -781,6 +786,47 @@ document.addEventListener('DOMContentLoaded', () => {
   if (certInput) {
     certInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') handleVerifyCertificate();
+    });
+  }
+
+  // Verification Modal controls
+  const verificationModal = document.getElementById('verification-modal');
+  const verificationCloseBtn = document.getElementById('verification-close-btn');
+  const navVerifyCert = document.getElementById('nav-verify-cert');
+  const footerVerifyCert = document.getElementById('footer-verify-cert');
+  const openVerificationModalBtn = document.getElementById('open-verification-modal-btn');
+
+  const openVerificationModal = (e) => {
+    if (e) e.preventDefault();
+    if (!verificationModal) return;
+    verificationModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Lock background scroll
+    
+    // Clear input and previous results when modal opens
+    if (certInput) {
+      certInput.value = '';
+      certInput.focus();
+    }
+    if (certResultContainer) {
+      certResultContainer.style.display = 'none';
+      certResultContainer.innerHTML = '';
+    }
+  };
+
+  const closeVerificationModal = () => {
+    if (!verificationModal) return;
+    verificationModal.style.display = 'none';
+    document.body.style.overflow = ''; // Restore scroll
+  };
+
+  if (navVerifyCert) navVerifyCert.addEventListener('click', openVerificationModal);
+  if (footerVerifyCert) footerVerifyCert.addEventListener('click', openVerificationModal);
+  if (openVerificationModalBtn) openVerificationModalBtn.addEventListener('click', openVerificationModal);
+  if (verificationCloseBtn) verificationCloseBtn.addEventListener('click', closeVerificationModal);
+
+  if (verificationModal) {
+    verificationModal.addEventListener('click', (e) => {
+      if (e.target === verificationModal) closeVerificationModal();
     });
   }
 
@@ -874,7 +920,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const passcode = adminPasscodeField.value;
     
     // Passcode validation
-    if (passcode === 'spaektechadmin26') {
+    if (passcode === 'sparktechadmin26') {
       adminAuthView.style.display = 'none';
       adminPanelView.style.display = 'block';
       renderAdminTable();
@@ -949,7 +995,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const deleteStudent = (id) => {
     let currentDB = getCertificatesDB();
     currentDB = currentDB.filter(item => item.id !== id);
-    localStorage.setItem('spaektech-certificates', JSON.stringify(currentDB));
+    localStorage.setItem('sparktech-certificates', JSON.stringify(currentDB));
     renderAdminTable();
   };
 
@@ -990,7 +1036,7 @@ document.addEventListener('DOMContentLoaded', () => {
       currentDB.push(record);
     }
 
-    localStorage.setItem('spaektech-certificates', JSON.stringify(currentDB));
+    localStorage.setItem('sparktech-certificates', JSON.stringify(currentDB));
     renderAdminTable();
 
     // Clear inputs
@@ -1006,7 +1052,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (adminClearDbBtn) {
     adminClearDbBtn.addEventListener('click', () => {
       if (confirm("WARNING: Are you sure you want to delete ALL certificate records? This cannot be undone.")) {
-        localStorage.setItem('spaektech-certificates', JSON.stringify([]));
+        localStorage.setItem('sparktech-certificates', JSON.stringify([]));
         renderAdminTable();
       }
     });
@@ -1019,7 +1065,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentDB, null, 2));
       const downloadAnchor = document.createElement('a');
       downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "spaektech-certificates.json");
+      downloadAnchor.setAttribute("download", "sparktech-certificates.json");
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();
@@ -1112,7 +1158,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
         
-        localStorage.setItem('spaektech-certificates', JSON.stringify(currentDB));
+        localStorage.setItem('sparktech-certificates', JSON.stringify(currentDB));
         renderAdminTable();
         
         if (adminUploadStatus) {
@@ -1157,6 +1203,34 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       adminExcelZone.classList.remove('dragover');
       handleExcelUpload(e.dataTransfer.files);
+    });
+  }
+
+  // Download Excel Template inside Admin Panel
+  const adminDownloadTemplateBtn = document.getElementById('admin-download-template-btn');
+
+  if (adminDownloadTemplateBtn) {
+    adminDownloadTemplateBtn.addEventListener('click', () => {
+      // Define columns
+      const headers = [["Certificate ID", "Student Name", "Project Name", "Site Link"]];
+      
+      // Sample data
+      const sampleRows = [
+        ["SPK-IOT-2026-01/100001", "Rahul S.", "Smart Energy Meter node", "https://energy.sparktech.com"],
+        ["SPK-IOT-2026-01/100002", "Aravind K.", "ESP32 Conic Web Controller", "https://control.sparktech.com"]
+      ];
+      
+      const sheetData = headers.concat(sampleRows);
+      
+      // Create worksheet
+      const worksheet = XLSX.utils.aoa_to_sheet(sheetData);
+      
+      // Create workbook
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Template");
+      
+      // Save/Write file
+      XLSX.writeFile(workbook, "sparktech-import-template.xlsx");
     });
   }
 

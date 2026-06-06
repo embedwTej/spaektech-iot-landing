@@ -1,6 +1,6 @@
-# 🚀 Spaektech Online IoT Course Landing Portal
+# 🚀 SparkTech Lab Online IoT Course Landing Portal
 
-A premium, highly interactive, and futuristic responsive landing page designed for **Spaektech's 30-Hour Online IoT Course** taught by Mr. Yogesh Mene (Senior IoT Engineer, Metayb Pvt. Ltd.). 
+A premium, highly interactive, and futuristic responsive landing page designed for **SparkTech Lab's 30-Hour Online IoT Course** taught by Mr. Yogesh Mene (Senior IoT Engineer, Metayb Pvt. Ltd.). 
 
 Live site available at: **[theiotguyyogesh.info](http://theiotguyyogesh.info)**
 
