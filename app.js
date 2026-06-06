@@ -619,7 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: "SPK-IOT-2026-01/100002", name: "Aravind K.", project: "ESP32 Conic Web Controller", site: "https://control.sparktech.com" },
     { id: "SPK-IOT-2026-01/100003", name: "Sneha R.", project: "MQTT Telemetry Weather Node", site: "https://weather.sparktech.com" },
     { id: "SPK-IOT-2026-01/100004", name: "Karan Patel", project: "Smart Relays Alexa Home Control", site: "https://relays.sparktech.com" },
-    { id: "SPK-IOT-2026-01/100005", name: "Priyanka Verma", project: "FreeRTOS Smart Security Alarm", site: "https://alarm.sparktech.com" }
+    { id: "SPK-IOT-2026-01/100005", name: "Priyanka Verma", project: "Smart Security Alarm", site: "https://alarm.sparktech.com" }
   ];
 
   // Initialize and migrate DB if needed
