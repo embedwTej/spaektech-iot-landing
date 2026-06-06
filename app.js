@@ -1258,10 +1258,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (urgencyActionBtn) {
       urgencyActionBtn.addEventListener('click', () => {
         closeUrgencyModal();
-        const registerSec = document.getElementById('register-section');
-        if (registerSec) {
-          registerSec.scrollIntoView({ behavior: 'smooth' });
-        }
+        setTimeout(() => {
+          const registerSec = document.getElementById('register-section');
+          if (registerSec) {
+            registerSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 150);
       });
     }
 
