@@ -822,6 +822,29 @@
     </div>
   </div>
 
+  <!-- Registration Urgency Modal -->
+  <div class="admin-modal-overlay" id="registration-urgency-modal" style="display: none;">
+    <div class="admin-modal-card" style="max-width: 460px; border: 1px solid var(--accent-cyan); box-shadow: 0 0 40px rgba(0, 240, 255, 0.25);">
+      <div class="admin-modal-header" style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 12px;">
+        <h3 style="color: var(--accent-cyan); display: inline-flex; align-items: center; gap: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 16px;">
+          <span class="banner-pulse" style="background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan);"></span>
+          LIMITED SEATS
+        </h3>
+        <button class="admin-close-btn" id="urgency-modal-close-btn" aria-label="Close Announcement">&times;</button>
+      </div>
+      <div class="admin-modal-body" style="padding: 24px 20px; text-align: center;">
+        <h4 style="font-size: 20px; color: var(--text-light); margin-bottom: 12px; font-weight: 600; font-family: 'Outfit', sans-serif;">Registration Closing Soon!</h4>
+        <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+          Enrollment for **Batch #1** of the Industrial IoT Course is closing shortly. Secure your seat today to lock in your admission before registration ends!
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <button class="btn btn-primary btn-glow" id="urgency-modal-action-btn" style="width: 100%; padding: 12px; font-weight: 600;">Secure Your Seat</button>
+          <button class="btn btn-secondary" id="urgency-modal-dismiss-btn" style="width: 100%; padding: 12px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); font-size: 13px; font-weight: 500;">Dismiss</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Hidden Admin Dashboard Modal -->
   <div class="admin-modal-overlay" id="admin-modal" style="display: none;">
     <div class="admin-modal-card">

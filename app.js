@@ -8,7 +8,7 @@
 // 1. Show the ₹499 early bird discount if the count is less than 5 (e.g. 0, 1, 2, 3, 4).
 // 2. Automatically switch the price to ₹799 for everyone once it reaches 5 or more.
 // 3. Update the visual progress bar (e.g. "3 / 5 Seats Filled").
-const CURRENT_REGISTRATION_COUNT =5;
+const CURRENT_REGISTRATION_COUNT = 5;
 // =========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -186,14 +186,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let particles = [];
     const maxParticles = 35; // reduced from 60
     let animating = true;
-    
+
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
     window.addEventListener('resize', resize, { passive: true });
     resize();
-    
+
     class Particle {
       constructor() {
         this.x = Math.random() * canvas.width;
@@ -215,17 +215,17 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fill();
       }
     }
-    
+
     for (let i = 0; i < maxParticles; i++) {
       particles.push(new Particle());
     }
-    
+
     // Pause animation when tab is not visible
     document.addEventListener('visibilitychange', () => {
       animating = !document.hidden;
       if (animating) animate();
     });
-    
+
     const animate = () => {
       if (!animating) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         p.update();
         p.draw();
       });
-      
+
       // O(n²) line connections - only draw if within threshold
       ctx.strokeStyle = 'rgba(138, 43, 226, 0.05)';
       ctx.lineWidth = 0.5;
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let charIndex = 0;
     let isDeleting = false;
     let typingDelay = 100;
-    
+
     const type = () => {
       const currentWord = words[wordIndex];
       if (isDeleting) {
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
         charIndex++;
         typingDelay = 120;
       }
-      
+
       if (!isDeleting && charIndex === currentWord.length) {
         isDeleting = true;
         typingDelay = 2000;
@@ -300,17 +300,17 @@ document.addEventListener('DOMContentLoaded', () => {
         wordIndex = (wordIndex + 1) % words.length;
         typingDelay = 300;
       }
-      
+
       setTimeout(type, typingDelay);
     };
-    
+
     setTimeout(type, 1000);
   }
 
   /* --- Scroll Reveal Observer --- */
   const revealElements = document.querySelectorAll('.timeline-node, .trainer-card, .audience-card, .step-card, .ticket-card, .section-header, .verify-card, .certificate-preview-card');
   revealElements.forEach(el => el.classList.add('reveal'));
-  
+
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, { threshold: 0.1 });
-  
+
   revealElements.forEach(el => revealObserver.observe(el));
 
   /* --- 3D Tilt Effect on Cards --- */
@@ -328,18 +328,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       const xc = rect.width / 2;
       const yc = rect.height / 2;
-      
+
       const angleX = (yc - y) / 20;
       const angleY = (x - xc) / 20;
-      
+
       card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-8px)`;
     });
-    
+
     card.style.transition = 'transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease';
-    
+
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
     });
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* --- Animated stats/counters (Count Up) --- */
   const counters = document.querySelectorAll('.count-up');
-  
+
   const countUpObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const increment = Math.max(1, Math.floor(target / 40));
         const duration = 1200;
         const stepTime = duration / (target / increment);
-        
+
         const timer = setInterval(() => {
           current += increment;
           if (current >= target) {
@@ -369,12 +369,12 @@ document.addEventListener('DOMContentLoaded', () => {
             counter.textContent = prefix + current + suffix;
           }
         }, stepTime);
-        
+
         countUpObserver.unobserve(counter);
       }
     });
   }, { threshold: 0.5 });
-  
+
   counters.forEach(c => countUpObserver.observe(c));
 
 
@@ -404,18 +404,18 @@ document.addEventListener('DOMContentLoaded', () => {
     line.className = `c-line ${type}`;
     const timestamp = new Date().toLocaleTimeString().split(' ')[0];
     line.innerHTML = `[${timestamp}] <span class="tag">[${type.toUpperCase()}]</span> ${message}`;
-    
+
     // Remove blink line temporarily and append new line
     const blinkLine = serialLines.querySelector('.blink');
     if (blinkLine) serialLines.removeChild(blinkLine);
-    
+
     serialLines.appendChild(line);
-    
+
     // Maintain maximum lines scroll
     while (serialLines.children.length > 6) {
       serialLines.removeChild(serialLines.firstElementChild);
     }
-    
+
     // Re-add blink line
     if (blinkLine) serialLines.appendChild(blinkLine);
     serialLines.scrollTop = serialLines.scrollHeight;
@@ -450,15 +450,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (oledCanvas) {
     const octx = oledCanvas.getContext('2d');
     let graphPoints = [30, 35, 42, 38, 45, 52, 48, 50, 42, 38, 46, 52];
-    
+
     const drawOledGraph = () => {
       octx.clearRect(0, 0, oledCanvas.width, oledCanvas.height);
       octx.strokeStyle = '#00f0ff';
       octx.lineWidth = 1.5;
       octx.beginPath();
-      
+
       const widthStep = oledCanvas.width / (graphPoints.length - 1);
-      
+
       for (let i = 0; i < graphPoints.length; i++) {
         // Map points to fit height constraints
         const y = oledCanvas.height - (graphPoints[i] / 80) * oledCanvas.height;
@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else octx.lineTo(x, y);
       }
       octx.stroke();
-      
+
       // Draw gridlines
       octx.strokeStyle = 'rgba(0, 240, 255, 0.1)';
       octx.lineWidth = 0.5;
@@ -478,25 +478,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       octx.stroke();
     };
-    
+
     // Loop updates
     setInterval(() => {
       const newTemp = (24 + Math.random() * 2).toFixed(1);
       const newHumid = (60 + Math.random() * 5).toFixed(1);
-      
+
       if (oledTemp) oledTemp.textContent = `${newTemp}°C`;
       if (oledHumid) oledHumid.textContent = `${newHumid}%`;
-      
+
       // Shift graph
       graphPoints.shift();
       graphPoints.push(Math.floor(40 + Math.random() * 25));
       drawOledGraph();
-      
+
       if (Math.random() > 0.6) {
         printSerialLog('info', `Sensor node payload published (temp=${newTemp})`);
       }
     }, 2500);
-    
+
     drawOledGraph();
   }
 
@@ -504,11 +504,11 @@ document.addEventListener('DOMContentLoaded', () => {
   /* --- 2. Live Class Portal Timer & Unlock logic --- */
   // Date target: June 20, 2026 10:00 AM IST
   const TARGET_UNLOCK_TIME = new Date('2026-06-20T10:00:00+05:30').getTime();
-  
+
   const lockedOverlay = document.getElementById('portal-locked-overlay');
   const unlockedPlayer = document.getElementById('portal-unlocked-player');
   const batchStatusLbl = document.getElementById('batch-status-text');
-  
+
   // Clock DOMs
   const dayVal = document.getElementById('countdown-days');
   const hrVal = document.getElementById('countdown-hours');
@@ -546,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "Yes, the audio and screen feed are perfectly clear.",
       "Will we receive copies of the session wiring diagrams?"
     ];
-    
+
     setInterval(() => {
       const randomName = studentNames[Math.floor(Math.random() * studentNames.length)];
       const randomMsg = mockMessages[Math.floor(Math.random() * mockMessages.length)];
@@ -558,16 +558,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lockedOverlay) lockedOverlay.style.display = 'none';
     if (unlockedPlayer) unlockedPlayer.style.display = 'block';
     if (batchStatusLbl) batchStatusLbl.textContent = 'Live Session Active';
-    
+
     // Enable Chat input
     if (chatInput) chatInput.removeAttribute('disabled');
     if (chatSend) chatSend.removeAttribute('disabled');
-    
+
     if (chatMessages) {
       chatMessages.innerHTML = '';
       appendChatMessage(null, 'Live class feed active. Welcome to Batch #01!', true);
     }
-    
+
     // Start dynamic chat simulation
     startLiveChatSimulator();
   };
@@ -575,18 +575,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const updateCountdownClock = () => {
     const now = new Date().getTime();
     const distance = TARGET_UNLOCK_TIME - now;
-    
+
     if (distance <= 0) {
       clearInterval(clockInterval);
       unlockClassPortal();
       return;
     }
-    
+
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
+
     if (dayVal) dayVal.textContent = days.toString().padStart(2, '0');
     if (hrVal) hrVal.textContent = hours.toString().padStart(2, '0');
     if (minVal) minVal.textContent = minutes.toString().padStart(2, '0');
@@ -600,13 +600,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!msg) return;
       appendChatMessage('You', msg);
       chatInput.value = '';
-      
+
       // Simulate instructor answer
       setTimeout(() => {
         appendChatMessage('Yogesh Mene (Trainer)', 'Excellent question! I will cover this in detail in 5 minutes.', false);
       }, 1500);
     };
-    
+
     chatSend.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') sendMessage();
@@ -649,16 +649,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const rect = certPreviewCard.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       const xc = rect.width / 2;
       const yc = rect.height / 2;
-      
+
       const angleX = (yc - y) / 30; // slightly less tilt for larger card
       const angleY = (x - xc) / 30;
-      
+
       certPreviewCard.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-4px)`;
     });
-    
+
     certPreviewCard.addEventListener('mouseleave', () => {
       certPreviewCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
     });
@@ -666,7 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const handleVerifyCertificate = () => {
     if (!certInput || !certResultContainer) return;
-    
+
     const certIdRaw = certInput.value.trim();
     if (!certIdRaw) {
       certResultContainer.style.display = 'block';
@@ -719,7 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Success state
     const hasProject = matchedRecord.project && matchedRecord.project.trim() !== "";
     const hasSite = matchedRecord.site && matchedRecord.site.trim() !== "";
-    
+
     let detailsHtml = `
       <div class="result-row">
         <span class="result-lbl">Certificate ID:</span>
@@ -777,7 +777,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (certVerifyBtn) {
     certVerifyBtn.addEventListener('click', handleVerifyCertificate);
   }
-  
+
   if (certInput) {
     certInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') handleVerifyCertificate();
@@ -796,7 +796,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!verificationModal) return;
     verificationModal.style.display = 'flex';
     document.body.style.overflow = 'hidden'; // Lock background scroll
-    
+
     // Clear input and previous results when modal opens
     if (certInput) {
       certInput.value = '';
@@ -828,13 +828,13 @@ document.addEventListener('DOMContentLoaded', () => {
   /* --- 5. Admin Panel Logic --- */
   const brandLogo = document.getElementById('brand-logo');
   const adminModal = document.getElementById('admin-modal');
-  
+
   const adminAuthView = document.getElementById('admin-auth-view');
   const adminPanelView = document.getElementById('admin-panel-view');
-  
+
   const adminAuthCloseBtn = document.getElementById('admin-auth-close-btn');
   const adminPanelCloseBtn = document.getElementById('admin-panel-close-btn');
-  
+
   const adminPasscodeField = document.getElementById('admin-passcode-input');
   const adminAuthBtn = document.getElementById('admin-auth-btn');
   const adminAuthError = document.getElementById('admin-auth-error');
@@ -842,7 +842,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const adminDbCount = document.getElementById('admin-db-count');
   const adminDbSearch = document.getElementById('admin-db-search');
   const adminDbTableBody = document.getElementById('admin-db-table-body');
-  
+
   const adminAddId = document.getElementById('admin-add-id');
   const adminAddName = document.getElementById('admin-add-name');
   const adminAddProject = document.getElementById('admin-add-project');
@@ -851,7 +851,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const adminClearDbBtn = document.getElementById('admin-clear-db-btn');
   const adminExportDbBtn = document.getElementById('admin-export-db-btn');
-  
+
   const adminExcelZone = document.getElementById('admin-excel-zone');
   const adminExcelFileInput = document.getElementById('admin-excel-file-input');
   const adminUploadStatus = document.getElementById('admin-upload-status');
@@ -865,7 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault(); // prevent navigation
       logoClicks++;
       clearTimeout(logoClickTimeout);
-      
+
       if (logoClicks >= 5) {
         logoClicks = 0;
         openAdminModal();
@@ -881,12 +881,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!adminModal) return;
     adminModal.style.display = 'flex';
     document.body.style.overflow = 'hidden'; // Lock background scroll
-    
+
     // Reset view states
     adminAuthView.style.display = 'block';
     adminPanelView.style.display = 'none';
     adminAuthError.style.display = 'none';
-    
+
     if (adminPasscodeField) {
       adminPasscodeField.value = '';
       adminPasscodeField.focus();
@@ -913,7 +913,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const handleAdminAuth = () => {
     if (!adminPasscodeField) return;
     const passcode = adminPasscodeField.value;
-    
+
     // Passcode validation
     if (passcode === 'sparktechadmin26') {
       adminAuthView.style.display = 'none';
@@ -936,14 +936,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const renderAdminTable = () => {
     if (!adminDbTableBody) return;
     adminDbTableBody.innerHTML = '';
-    
+
     const currentDB = getCertificatesDB();
     const searchQuery = adminDbSearch ? adminDbSearch.value.trim().toLowerCase() : '';
-    
+
     let filteredDB = currentDB;
     if (searchQuery) {
-      filteredDB = currentDB.filter(item => 
-        item.name.toLowerCase().includes(searchQuery) || 
+      filteredDB = currentDB.filter(item =>
+        item.name.toLowerCase().includes(searchQuery) ||
         item.id.toLowerCase().includes(searchQuery) ||
         (item.project && item.project.toLowerCase().includes(searchQuery))
       );
@@ -1071,7 +1071,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const handleExcelUpload = (files) => {
     if (!files || files.length === 0) return;
     const file = files[0];
-    
+
     // Check file extension
     const extension = file.name.split('.').pop().toLowerCase();
     if (!['xlsx', 'xls', 'csv'].includes(extension)) {
@@ -1081,44 +1081,44 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       return;
     }
-    
+
     // Parse using SheetJS
     const reader = new FileReader();
-    
+
     if (adminUploadStatus) {
       adminUploadStatus.textContent = "Reading sheet...";
       adminUploadStatus.style.color = "var(--accent-cyan)";
     }
-    
+
     reader.onload = (e) => {
       try {
         const data = new Uint8Array(e.target.result);
         const workbook = XLSX.read(data, { type: 'array' });
-        
+
         const firstSheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheetName];
-        
+
         // Convert sheet to json
         const rows = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
-        
+
         if (!rows || rows.length === 0) {
           throw new Error("No data rows found in the sheet.");
         }
-        
+
         let currentDB = []; // Clear existing database to override it with the new Excel upload
         let importedCount = 0;
         let errorsCount = 0;
-        
+
         rows.forEach(row => {
           let certId = "";
           let studentName = "";
           let projectName = "";
           let siteLink = "";
-          
+
           // Header-insensitive normalization
           Object.keys(row).forEach(key => {
             const normalizedKey = key.trim().toLowerCase();
-            
+
             if (normalizedKey.includes('certificate') || normalizedKey === 'id' || normalizedKey.includes('certificate id') || normalizedKey.includes('cert id')) {
               certId = String(row[key]).trim();
             } else if (normalizedKey.includes('site') || normalizedKey.includes('link') || normalizedKey.includes('url') || normalizedKey.includes('location') || normalizedKey.includes('deploy')) {
@@ -1129,19 +1129,19 @@ document.addEventListener('DOMContentLoaded', () => {
               studentName = String(row[key]).trim();
             }
           });
-          
+
           const formatRegex = /^SPK-IOT-2026-01\/(\d+)$/i;
           if (certId && certId.match(formatRegex) && studentName) {
             const uppercaseId = certId.toUpperCase();
             const existingIndex = currentDB.findIndex(item => item.id.toUpperCase() === uppercaseId);
-            
+
             const record = {
               id: uppercaseId,
               name: studentName,
               project: projectName,
               site: siteLink
             };
-            
+
             if (existingIndex > -1) {
               currentDB[existingIndex] = record;
             } else {
@@ -1152,10 +1152,10 @@ document.addEventListener('DOMContentLoaded', () => {
             errorsCount++;
           }
         });
-        
+
         localStorage.setItem('sparktech-certificates', JSON.stringify(currentDB));
         renderAdminTable();
-        
+
         if (adminUploadStatus) {
           adminUploadStatus.innerHTML = `Successfully loaded <strong>${importedCount}</strong> records.`;
           if (errorsCount > 0) {
@@ -1171,7 +1171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     };
-    
+
     reader.readAsArrayBuffer(file);
   };
 
@@ -1208,24 +1208,65 @@ document.addEventListener('DOMContentLoaded', () => {
     adminDownloadTemplateBtn.addEventListener('click', () => {
       // Define columns
       const headers = [["Certificate ID", "Student Name", "Project Name", "Project Location"]];
-      
+
       // Sample data
       const sampleRows = [
         ["SPK-IOT-2026-01/100001", "Rahul S.", "Smart Energy Meter node", "https://energy.sparktech.com"],
         ["SPK-IOT-2026-01/100002", "Aravind K.", "ESP32 Conic Web Controller", "https://control.sparktech.com"]
       ];
-      
+
       const sheetData = headers.concat(sampleRows);
-      
+
       // Create worksheet
       const worksheet = XLSX.utils.aoa_to_sheet(sheetData);
-      
+
       // Create workbook
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Template");
-      
+
       // Save/Write file
       XLSX.writeFile(workbook, "sparktech-import-template.xlsx");
+    });
+  }
+
+  // Urgency Modal logic
+  const urgencyModal = document.getElementById('registration-urgency-modal');
+  const urgencyCloseBtn = document.getElementById('urgency-modal-close-btn');
+  const urgencyActionBtn = document.getElementById('urgency-modal-action-btn');
+  const urgencyDismissBtn = document.getElementById('urgency-modal-dismiss-btn');
+
+  const closeUrgencyModal = () => {
+    if (urgencyModal) {
+      urgencyModal.style.display = 'none';
+      document.body.style.overflow = '';
+      localStorage.setItem('sparktech-urgency-dismissed', 'true');
+    }
+  };
+
+  if (urgencyModal) {
+    // Show modal after 2.5 seconds if not already dismissed
+    if (localStorage.getItem('sparktech-urgency-dismissed') !== 'true') {
+      setTimeout(() => {
+        urgencyModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }, 2500);
+    }
+
+    if (urgencyCloseBtn) urgencyCloseBtn.addEventListener('click', closeUrgencyModal);
+    if (urgencyDismissBtn) urgencyDismissBtn.addEventListener('click', closeUrgencyModal);
+
+    if (urgencyActionBtn) {
+      urgencyActionBtn.addEventListener('click', () => {
+        closeUrgencyModal();
+        const registerSec = document.getElementById('register-section');
+        if (registerSec) {
+          registerSec.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    urgencyModal.addEventListener('click', (e) => {
+      if (e.target === urgencyModal) closeUrgencyModal();
     });
   }
 
