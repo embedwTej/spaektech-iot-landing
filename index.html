@@ -157,6 +157,7 @@
         <a href="#about" class="nav-link">Curriculum</a>
         <a href="#trainer" class="nav-link">Trainer</a>
         <a href="#audience" class="nav-link">For Whom</a>
+        <a href="#certificates" class="nav-link">Certificates</a>
         <a href="#register-section" class="nav-link nav-btn">Register Now</a>
       </nav>
       <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
@@ -609,6 +610,54 @@
     </div>
   </section>
 
+  <!-- Certificate Verification & Preview Section -->
+  <section class="certificate-section" id="certificates">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tagline">Verify Credentials</span>
+        <h2 class="section-title">Certificate &amp; Validation</h2>
+        <p class="section-desc">Receive an industry-recognized certificate of completion from Spaektech. Prospective employers can verify your certificate's authenticity instantly below.</p>
+      </div>
+
+      <div class="certificate-grid">
+        <!-- Left Column: Interactive Certificate Preview -->
+        <div class="certificate-preview-container">
+          <div class="certificate-preview-card" id="cert-preview-card">
+            <div class="cert-image-glow"></div>
+            <img src="assets/certificate-sample.jpg" alt="Spaektech Industrial IoT Certificate of Completion Sample" class="cert-sample-img" loading="lazy" decoding="async">
+            <div class="cert-badges-overlay">
+              <span class="badge-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> 
+                Verified Credential
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Verification Form -->
+        <div class="certificate-verify-container">
+          <div class="verify-card">
+            <h3 class="verify-title">Verify Certificate Authenticity</h3>
+            <p class="verify-text">Enter the unique Certificate ID printed at the bottom-left corner of the certificate (Format: <code>SPK-IOT-2026-01/100001</code>).</p>
+            
+            <div class="verify-form-group">
+              <div class="input-wrapper">
+                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <input type="text" id="certificate-id-input" placeholder="SPK-IOT-2026-01/100001" aria-label="Enter Certificate ID">
+              </div>
+              <button class="btn btn-primary btn-glow verify-btn" id="certificate-verify-btn">Verify Credential</button>
+            </div>
+
+            <!-- Results container -->
+            <div class="verify-result-container" id="verify-result-container" style="display: none;">
+              <!-- Dynamic result is injected here by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Pricing & Registration Section -->
   <section class="register-section" id="register-section">
     <div class="container">
@@ -725,6 +774,7 @@
         <a href="#live-portal">Live Portal</a>
         <a href="#about">Syllabus</a>
         <a href="#trainer">Trainer</a>
+        <a href="#certificates">Certificates</a>
         <a href="#register-section">Register</a>
       </div>
       <div class="footer-contact">

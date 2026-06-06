@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* --- Scroll Reveal Observer --- */
-  const revealElements = document.querySelectorAll('.timeline-node, .trainer-card, .audience-card, .step-card, .ticket-card, .section-header');
+  const revealElements = document.querySelectorAll('.timeline-node, .trainer-card, .audience-card, .step-card, .ticket-card, .section-header, .verify-card, .certificate-preview-card');
   revealElements.forEach(el => el.classList.add('reveal'));
   
   const revealObserver = new IntersectionObserver((entries) => {
@@ -610,6 +610,139 @@ document.addEventListener('DOMContentLoaded', () => {
     chatSend.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') sendMessage();
+    });
+  }
+
+  /* --- 3. Certificate Verification logic --- */
+  const certInput = document.getElementById('certificate-id-input');
+  const certVerifyBtn = document.getElementById('certificate-verify-btn');
+  const certResultContainer = document.getElementById('verify-result-container');
+  const certPreviewCard = document.getElementById('cert-preview-card');
+
+  // Interactive 3D Tilt Effect for Certificate Preview (custom for horizontal orientation)
+  if (certPreviewCard) {
+    certPreviewCard.addEventListener('mousemove', (e) => {
+      const rect = certPreviewCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const xc = rect.width / 2;
+      const yc = rect.height / 2;
+      
+      const angleX = (yc - y) / 30; // slightly less tilt for larger card
+      const angleY = (x - xc) / 30;
+      
+      certPreviewCard.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-4px)`;
+    });
+    
+    certPreviewCard.addEventListener('mouseleave', () => {
+      certPreviewCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+    });
+  }
+
+  // Verification lookup names map for graduates
+  const mockCertNames = {
+    "100001": "Rahul S.",
+    "100002": "Aravind K.",
+    "100003": "Sneha R.",
+    "100004": "Karan Patel",
+    "100005": "Priyanka Verma"
+  };
+
+  const handleVerifyCertificate = () => {
+    if (!certInput || !certResultContainer) return;
+    
+    const certIdRaw = certInput.value.trim();
+    if (!certIdRaw) {
+      certResultContainer.style.display = 'block';
+      certResultContainer.innerHTML = `
+        <div class="result-card error">
+          <div class="result-header">
+            <span class="status-badge"><span class="status-led"></span>Error</span>
+          </div>
+          <p class="result-error-msg">Please enter a Certificate ID to verify.</p>
+        </div>
+      `;
+      return;
+    }
+
+    // Format check: SPK-IOT-2026-01/ followed by numbers
+    const formatRegex = /^SPK-IOT-2026-01\/(\d+)$/i;
+    const match = certIdRaw.match(formatRegex);
+
+    if (!match) {
+      certResultContainer.style.display = 'block';
+      certResultContainer.innerHTML = `
+        <div class="result-card error">
+          <div class="result-header">
+            <span class="status-badge"><span class="status-led"></span>Invalid Format</span>
+          </div>
+          <p class="result-error-msg">The ID format entered is incorrect. Example format: <strong>SPK-IOT-2026-01/100001</strong> (case-insensitive).</p>
+        </div>
+      `;
+      return;
+    }
+
+    const certNumStr = match[1];
+    const certNum = parseInt(certNumStr, 10);
+
+    if (certNum < 100000) {
+      certResultContainer.style.display = 'block';
+      certResultContainer.innerHTML = `
+        <div class="result-card error">
+          <div class="result-header">
+            <span class="status-badge"><span class="status-led"></span>Verification Failed</span>
+          </div>
+          <p class="result-error-msg">This Certificate ID was not found in our database. Valid IDs begin from 100000 onwards.</p>
+        </div>
+      `;
+      return;
+    }
+
+    // Success state
+    const matchedName = mockCertNames[certNumStr] || "Verified IoT Graduate";
+    const formattedId = `SPK-IOT-2026-01/${certNumStr}`;
+    
+    certResultContainer.style.display = 'block';
+    certResultContainer.innerHTML = `
+      <div class="result-card success">
+        <div class="result-header">
+          <span class="status-badge"><span class="status-led"></span>Verified Credential</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <div class="result-details">
+          <div class="result-row">
+            <span class="result-lbl">Certificate ID:</span>
+            <span class="result-val highlight">${formattedId}</span>
+          </div>
+          <div class="result-row">
+            <span class="result-lbl">Student Name:</span>
+            <span class="result-val verified-name">${matchedName}</span>
+          </div>
+          <div class="result-row">
+            <span class="result-lbl">Course Completed:</span>
+            <span class="result-val">30-Hour Industrial IoT Training</span>
+          </div>
+          <div class="result-row">
+            <span class="result-lbl">Instructor:</span>
+            <span class="result-val">Mr. Yogesh Mene</span>
+          </div>
+          <div class="result-row">
+            <span class="result-lbl">Verification Status:</span>
+            <span class="result-val" style="color: var(--success-green); font-weight: 700;">ACTIVE &amp; VALID</span>
+          </div>
+        </div>
+      </div>
+    `;
+  };
+
+  if (certVerifyBtn) {
+    certVerifyBtn.addEventListener('click', handleVerifyCertificate);
+  }
+  
+  if (certInput) {
+    certInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleVerifyCertificate();
     });
   }
 
