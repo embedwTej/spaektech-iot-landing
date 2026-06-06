@@ -503,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* --- 2. Live Class Portal Timer & Unlock logic --- */
   // Date target: June 20, 2026 10:00 AM IST
-  const TARGET_UNLOCK_TIME = new Date('2026-06-20T10:00:00').getTime();
+  const TARGET_UNLOCK_TIME = new Date('2026-06-20T10:00:00+05:30').getTime();
   
   const lockedOverlay = document.getElementById('portal-locked-overlay');
   const unlockedPlayer = document.getElementById('portal-unlocked-player');
