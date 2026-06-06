@@ -1126,12 +1126,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (normalizedKey.includes('certificate') || normalizedKey === 'id' || normalizedKey.includes('certificate id') || normalizedKey.includes('cert id')) {
               certId = String(row[key]).trim();
+            } else if (normalizedKey.includes('site') || normalizedKey.includes('link') || normalizedKey.includes('url') || normalizedKey.includes('location') || normalizedKey.includes('deploy')) {
+              siteLink = String(row[key]).trim();
             } else if (normalizedKey.includes('project')) {
               projectName = String(row[key]).trim();
             } else if (normalizedKey.includes('student') || normalizedKey === 'name' || normalizedKey.includes('student name')) {
               studentName = String(row[key]).trim();
-            } else if (normalizedKey.includes('site') || normalizedKey.includes('link') || normalizedKey.includes('url') || normalizedKey.includes('location') || normalizedKey.includes('deploy')) {
-              siteLink = String(row[key]).trim();
             }
           });
           
