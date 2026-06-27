@@ -136,8 +136,8 @@
   <div class="announcement-banner" id="announcement-banner">
     <div class="announcement-banner-content">
       <span class="banner-pulse"></span>
-      <span class="banner-text">Live classes starting on <strong>June 20</strong>! Hurry up, limited seats left.</span>
-      <a href="#register-section" class="banner-link">Enroll Now &rarr;</a>
+      <span class="banner-text">🎓 Batch #1 completed! <strong>New Batch</strong> starting soon — stay tuned!</span>
+      <a href="#live-portal" class="banner-link">Live Stream &rarr;</a>
     </div>
     <button class="banner-close-btn" id="banner-close-btn" aria-label="Close Announcement">&times;</button>
   </div>
@@ -181,8 +181,8 @@
       <div class="hero-content">
         <div class="badge-container">
           <span class="hero-badge">Weekend Batches</span>
-          <span class="hero-badge-pulse">Early Bird Active</span>
-          <span class="hero-badge-live">Live Classes: June 20</span>
+          <span class="hero-badge-pulse closed">Registration Closed</span>
+          <span class="hero-badge-live">New Batch Coming Soon</span>
         </div>
         <div class="tagline-rotate">
           BUILD REAL-WORLD <span id="rotate-text" class="gradient-text">ESP32 FIRMWARE</span>
@@ -294,45 +294,34 @@
     <div class="container">
       <div class="section-header">
         <span class="section-tagline">Access Live Lectures</span>
-        <h2 class="section-title">Live Class Access Portal</h2>
-        <p class="section-desc">Connect directly to live hands-on lectures. Portal unlocks automatically on June 20, 2026, at 10:00 AM.</p>
+        <h2 class="section-title">Live Stream Access Portal</h2>
+        <p class="section-desc">Exclusive live stream recordings &amp; sessions — available only for <strong>certified students</strong>. Enter your certificate number below to unlock access.</p>
       </div>
       
       <div class="portal-grid">
         <!-- Left: Portal Video Stream Panel -->
         <div class="portal-player-container" id="portal-player-container">
-          <!-- Locked State overlay -->
+          <!-- Certificate Gate Overlay -->
           <div class="portal-locked-overlay" id="portal-locked-overlay">
             <div class="lock-visual">
               <svg class="lock-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
               <div class="lock-glow-ring"></div>
             </div>
-            <h3>Live Class Portal Locked</h3>
-            <p>Will unlock automatically on <strong>June 20, 2026 at 10:00 AM IST</strong></p>
+            <h3>Certified Students Only</h3>
+            <p>Enter your <strong>SparkTech Certificate Number</strong> to access live stream recordings &amp; sessions.</p>
             
-            <!-- Dynamic Countdown Timer -->
-            <div class="countdown-timer" id="countdown-timer">
-              <div class="countdown-unit">
-                <span id="countdown-days">00</span>
-                <span class="unit-lbl">Days</span>
+            <!-- Certificate Entry Gate -->
+            <div class="cert-gate-form" id="cert-gate-form">
+              <div class="cert-gate-input-group">
+                <div class="input-wrapper" style="width: 100%;">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  <input type="text" id="cert-gate-input" placeholder="SPK-IOT-2026-01/100001" aria-label="Enter Certificate ID" style="width: 100%; font-size: 14px;">
+                </div>
+                <button class="btn btn-primary btn-glow btn-sm" id="cert-gate-btn" style="white-space: nowrap;">Unlock Stream</button>
               </div>
-              <div class="countdown-divider">:</div>
-              <div class="countdown-unit">
-                <span id="countdown-hours">00</span>
-                <span class="unit-lbl">Hrs</span>
-              </div>
-              <div class="countdown-divider">:</div>
-              <div class="countdown-unit">
-                <span id="countdown-minutes">00</span>
-                <span class="unit-lbl">Mins</span>
-              </div>
-              <div class="countdown-divider">:</div>
-              <div class="countdown-unit">
-                <span id="countdown-seconds">00</span>
-                <span class="unit-lbl">Secs</span>
-              </div>
+              <div id="cert-gate-error" class="cert-gate-error-msg" style="display: none;"></div>
+              <p class="cert-gate-hint">Your certificate number is printed on the bottom-left of your SparkTech certificate (e.g. <code>SPK-IOT-2026-01/100001</code>)</p>
             </div>
-            <a href="#register-section" class="btn btn-primary btn-glow btn-sm">Enroll Now to Secure Access</a>
           </div>
           
           <!-- Unlocked State Player -->
@@ -379,8 +368,8 @@
             <h4>Live Session Information</h4>
             <div class="agenda-details">
               <div class="agenda-item">
-                <span class="ag-lbl">Scheduled Start:</span>
-                <span class="ag-val">June 20, 2026 at 10:00 AM IST</span>
+                <span class="ag-lbl">Batch #1 Completed:</span>
+                <span class="ag-val">June 20 – July 20, 2026</span>
               </div>
               <div class="agenda-item">
                 <span class="ag-lbl">Agenda Topics:</span>
@@ -388,15 +377,15 @@
               </div>
               <div class="agenda-item">
                 <span class="ag-lbl">Current Batch status:</span>
-                <span class="ag-val" id="batch-status-text">Pending Start (Registration Active)</span>
+                <span class="ag-val" id="batch-status-text">Batch #1 Complete — New Batch Coming Soon</span>
               </div>
             </div>
           </div>
           
           <div class="live-chat-panel">
-            <div class="chat-header">STUDENT LIVE Q&amp;A FEED</div>
+            <div class="chat-header">CERTIFIED STUDENT CHANNEL</div>
             <div class="chat-messages" id="chat-messages-container">
-              <div class="chat-msg system">Portal locked. Chat will become active once live session starts.</div>
+              <div class="chat-msg system">🔒 Access restricted to certified students. Enter your certificate number to unlock.</div>
             </div>
             <div class="chat-input-area">
               <input type="text" placeholder="Type a message..." disabled id="chat-input-box">
@@ -683,9 +672,9 @@
   <section class="register-section" id="register-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-tagline">How to Join</span>
-        <h2 class="section-title">Registration Steps</h2>
-        <p class="section-desc">Join the 30-Hour Online IoT Course in three simple steps. <strong>Live classes start June 20 &mdash; hurry up!</strong></p>
+        <span class="section-tagline">Batch #1 Completed</span>
+        <h2 class="section-title">Registration Closed</h2>
+        <p class="section-desc">Thank you for the overwhelming response! <strong>Batch #1 is now complete.</strong> A new batch will be starting soon &mdash; drop us a message to get notified.</p>
       </div>
 
       <div class="register-grid">
@@ -733,8 +722,8 @@
           <div class="ticket-card">
             <div class="ticket-glow"></div>
             <div class="ticket-top">
-              <span class="ticket-badge" id="ticket-badge">Official GPay QR</span>
-              <div class="ticket-date-badge">Live Classes Start June 20</div>
+              <span class="ticket-badge" id="ticket-badge" style="background: rgba(138,43,226,0.1); color: var(--accent-purple);">Registration Closed</span>
+              <div class="ticket-date-badge">New Batch Coming Soon</div>
               <h3>Yogesh Mene</h3>
               <p class="ticket-duration" id="ticket-price-sub">Scan to pay Early Bird fee: ₹799</p>
             </div>
@@ -765,11 +754,11 @@
               
               <div class="seat-progress">
                 <div class="seat-text">
-                  <span id="seat-status-lbl">Early Bird Offer</span>
-                  <span id="seat-pct-lbl">5 / 5 Seats Filled</span>
+                  <span id="seat-status-lbl">Batch #1 Full</span>
+                  <span id="seat-pct-lbl">Registration Closed</span>
                 </div>
                 <div class="progress-bar-bg">
-                  <div class="progress-bar-fill" id="seat-progress-fill" style="width: 100%"></div>
+                  <div class="progress-bar-fill" id="seat-progress-fill" style="width: 100%; background: var(--accent-purple);"></div>
                 </div>
               </div>
             </div>
@@ -857,18 +846,18 @@
     <div class="admin-modal-card" style="max-width: 460px; border: 1px solid var(--accent-cyan); box-shadow: 0 0 40px rgba(0, 240, 255, 0.25);">
       <div class="admin-modal-header" style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 12px;">
         <h3 style="color: var(--accent-cyan); display: inline-flex; align-items: center; gap: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 16px;">
-          <span class="banner-pulse" style="background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan);"></span>
-          LIMITED SEATS
+          <span class="banner-pulse" style="background: var(--accent-purple); box-shadow: 0 0 10px var(--accent-purple);"></span>
+          NEW BATCH SOON
         </h3>
         <button class="admin-close-btn" id="urgency-modal-close-btn" aria-label="Close Announcement">&times;</button>
       </div>
       <div class="admin-modal-body" style="padding: 24px 20px; text-align: center;">
-        <h4 style="font-size: 20px; color: var(--text-light); margin-bottom: 12px; font-weight: 600; font-family: 'Outfit', sans-serif;">Registration Closing Soon!</h4>
+        <h4 style="font-size: 20px; color: var(--text-light); margin-bottom: 12px; font-weight: 600; font-family: 'Outfit', sans-serif;">Batch #1 is Complete! 🎓</h4>
         <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-          Enrollment for **Batch #1** of the Industrial IoT Course is closing shortly. Secure your seat today to lock in your admission before registration ends!
+          Registration for Batch #1 is now closed. A new batch will be starting soon! Join the WhatsApp group to be the first to know when registrations open.
         </p>
         <div style="display: flex; flex-direction: column; gap: 10px;">
-          <button class="btn btn-primary btn-glow" id="urgency-modal-action-btn" style="width: 100%; padding: 12px; font-weight: 600;">Secure Your Seat</button>
+          <a href="https://chat.whatsapp.com/IDAIivJ00jTGMK6SNCKlJG" target="_blank" rel="noopener" class="btn btn-primary btn-glow" id="urgency-modal-action-btn" style="width: 100%; padding: 12px; font-weight: 600; text-decoration: none; text-align: center;">Get Notified — Join WhatsApp</a>
           <button class="btn btn-secondary" id="urgency-modal-dismiss-btn" style="width: 100%; padding: 12px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); font-size: 13px; font-weight: 500;">Dismiss</button>
         </div>
       </div>

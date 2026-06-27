@@ -3341,6 +3341,108 @@ body.no-banner .announcement-banner {
   }
 }
 
+/* --- Certificate Gate Form (Live Portal) --- */
+.cert-gate-form {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 4px;
+}
+
+.cert-gate-input-group {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.cert-gate-input-group .input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.cert-gate-input-group .input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-dark);
+  pointer-events: none;
+  transition: var(--transition-smooth);
+  flex-shrink: 0;
+}
+
+.cert-gate-input-group input {
+  width: 100%;
+  background: rgba(3, 4, 7, 0.75);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-sm);
+  padding: 12px 14px 12px 44px;
+  color: var(--text-white);
+  font-family: monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.cert-gate-input-group input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+  background: rgba(3, 4, 7, 0.95);
+}
+
+.cert-gate-input-group input:focus ~ .input-icon {
+  color: var(--accent-cyan);
+}
+
+.cert-gate-error-msg {
+  color: var(--danger-red);
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 59, 48, 0.06);
+  border: 1px solid rgba(255, 59, 48, 0.2);
+  border-radius: var(--border-radius-sm);
+  animation: slideInDown 0.3s ease forwards;
+}
+
+.cert-gate-hint {
+  color: var(--text-dark);
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.5;
+  margin-top: 8px;
+  margin-bottom: 0 !important;
+}
+
+.cert-gate-hint code {
+  color: var(--accent-cyan);
+  font-family: monospace;
+  font-size: 11px;
+}
+
+/* Override portal-locked-overlay p margin for cert gate */
+.portal-locked-overlay p {
+  margin-bottom: 20px !important;
+}
+
+/* Unlocked — welcome banner */
+.cert-gate-welcome {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(52, 199, 89, 0.06);
+  border: 1px solid rgba(52, 199, 89, 0.2);
+  border-radius: var(--border-radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--success-green);
+  margin-bottom: 0;
+  animation: slideInDown 0.4s ease forwards;
+}
+
 /* ====================================================
    PREFERS REDUCED MOTION
    Disables all animations for users who opt-in to

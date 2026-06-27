@@ -63,101 +63,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* --- Dynamic Price & Seats Adjuster --- */
+  // Registration is closed — always show closed state
   const updatePriceUI = () => {
-    const priceValElements = document.querySelectorAll('.price-val');
-    const statPriceVal = document.getElementById('stat-price-val');
-    const statPriceLbl = document.getElementById('stat-price-lbl');
-    const step1Title = document.getElementById('step-1-title');
-    const ticketBadge = document.getElementById('ticket-badge');
-    const ticketPriceSub = document.getElementById('ticket-price-sub');
-    const ticketNewPriceVal = document.getElementById('ticket-new-price-val');
     const seatStatusLbl = document.getElementById('seat-status-lbl');
     const seatPctLbl = document.getElementById('seat-pct-lbl');
     const seatProgressFill = document.getElementById('seat-progress-fill');
-
-    const limit = 5;
-    const isEarlyBirdActive = CURRENT_REGISTRATION_COUNT < limit;
-
     const heroBadgePulse = document.querySelector('.hero-badge-pulse');
     const bannerText = document.querySelector('.banner-text');
+    const ticketBadge = document.getElementById('ticket-badge');
+    const ticketPriceSub = document.getElementById('ticket-price-sub');
+    const ticketNewPriceVal = document.getElementById('ticket-new-price-val');
+    const statPriceVal = document.getElementById('stat-price-val');
+    const statPriceLbl = document.getElementById('stat-price-lbl');
 
-    if (!isEarlyBirdActive) {
-      // Switch elements to standard/regular price (₹799)
-      priceValElements.forEach(el => el.textContent = '₹799');
-
-      if (statPriceVal) {
-        statPriceVal.setAttribute('data-target', '799');
-        statPriceVal.textContent = '₹799';
-      }
-      if (statPriceLbl) statPriceLbl.textContent = 'Regular Fee';
-
-      if (step1Title) step1Title.textContent = 'Scan & Pay Course Fee';
-
-      if (ticketBadge) {
-        ticketBadge.textContent = 'Standard Admission';
-        ticketBadge.style.background = 'rgba(138, 43, 226, 0.1)';
-        ticketBadge.style.color = 'var(--accent-purple)';
-      }
-
-      if (ticketPriceSub) ticketPriceSub.textContent = 'Scan to pay course fee: ₹799';
-      if (ticketNewPriceVal) ticketNewPriceVal.textContent = '₹799';
-
-      if (seatStatusLbl) seatStatusLbl.textContent = 'Standard Admission';
-      if (seatPctLbl) seatPctLbl.textContent = '5 / 5 Filled (Early Bird Closed)';
-      if (seatProgressFill) {
-        seatProgressFill.style.width = '100%';
-        seatProgressFill.style.background = 'var(--accent-purple)';
-      }
-
-      if (heroBadgePulse) {
-        heroBadgePulse.textContent = 'Regular Admission';
-        heroBadgePulse.classList.add('closed');
-      }
-
-      if (bannerText) {
-        bannerText.innerHTML = 'Live classes starting on <strong>June 20</strong>! Standard admission open.';
-      }
-    } else {
-      // Switch elements to early bird price (₹499)
-      priceValElements.forEach(el => el.textContent = '₹499');
-
-      if (statPriceVal) {
-        statPriceVal.setAttribute('data-target', '499');
-        statPriceVal.textContent = '₹499';
-      }
-      if (statPriceLbl) statPriceLbl.textContent = 'Early Bird Fee';
-
-      if (step1Title) step1Title.textContent = 'Scan & Pay Early Bird Fee';
-
-      if (ticketBadge) {
-        ticketBadge.textContent = 'Official GPay QR';
-        ticketBadge.style.background = 'rgba(0, 240, 255, 0.1)';
-        ticketBadge.style.color = 'var(--accent-cyan)';
-      }
-
-      if (ticketPriceSub) ticketPriceSub.textContent = 'Scan to pay Early Bird fee: ₹499';
-      if (ticketNewPriceVal) ticketNewPriceVal.textContent = '₹499';
-
-      // Calculate active seats percentage
-      const percentage = Math.min(100, Math.max(0, (CURRENT_REGISTRATION_COUNT / limit) * 100));
-
-      if (seatStatusLbl) seatStatusLbl.textContent = 'Early Bird Offer';
-      if (seatPctLbl) seatPctLbl.textContent = `${CURRENT_REGISTRATION_COUNT} / ${limit} Seats Filled`;
-      if (seatProgressFill) {
-        seatProgressFill.style.width = `${percentage}%`;
-        seatProgressFill.style.background = 'var(--primary-gradient)';
-      }
-
-      if (heroBadgePulse) {
-        heroBadgePulse.textContent = 'Early Bird Active';
-        heroBadgePulse.classList.remove('closed');
-      }
-
-      if (bannerText) {
-        bannerText.innerHTML = 'Live classes starting on <strong>June 20</strong>! Hurry up, limited seats left.';
-      }
+    // Always show registration-closed state
+    if (seatStatusLbl) seatStatusLbl.textContent = 'Batch #1 Full';
+    if (seatPctLbl) seatPctLbl.textContent = 'Registration Closed';
+    if (seatProgressFill) {
+      seatProgressFill.style.width = '100%';
+      seatProgressFill.style.background = 'var(--accent-purple)';
     }
+
+    if (heroBadgePulse) {
+      heroBadgePulse.textContent = 'Registration Closed';
+      heroBadgePulse.classList.add('closed');
+    }
+
+    if (bannerText) {
+      bannerText.innerHTML = '🎓 Batch #1 completed! <strong>New Batch</strong> starting soon — stay tuned!';
+    }
+
+    if (ticketBadge) {
+      ticketBadge.textContent = 'Registration Closed';
+      ticketBadge.style.background = 'rgba(138, 43, 226, 0.1)';
+      ticketBadge.style.color = 'var(--accent-purple)';
+    }
+
+    if (ticketPriceSub) ticketPriceSub.textContent = 'New batch starting soon — stay tuned!';
+    if (ticketNewPriceVal) ticketNewPriceVal.textContent = '—';
+
+    if (statPriceVal) {
+      statPriceVal.textContent = '₹799';
+    }
+    if (statPriceLbl) statPriceLbl.textContent = 'Course Fee';
   };
 
   updatePriceUI();
@@ -501,19 +449,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  /* --- 2. Live Class Portal Timer & Unlock logic --- */
-  // Date target: June 20, 2026 10:00 AM IST
-  const TARGET_UNLOCK_TIME = new Date('2026-06-20T10:00:00+05:30').getTime();
-
+  /* --- 2. Certificate Gate for Live Portal --- */
   const lockedOverlay = document.getElementById('portal-locked-overlay');
   const unlockedPlayer = document.getElementById('portal-unlocked-player');
   const batchStatusLbl = document.getElementById('batch-status-text');
-
-  // Clock DOMs
-  const dayVal = document.getElementById('countdown-days');
-  const hrVal = document.getElementById('countdown-hours');
-  const minVal = document.getElementById('countdown-minutes');
-  const secVal = document.getElementById('countdown-seconds');
 
   // Chat panel components
   const chatMessages = document.getElementById('chat-messages-container');
@@ -554,10 +493,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 6000);
   };
 
-  const unlockClassPortal = () => {
+  const unlockClassPortal = (studentName) => {
     if (lockedOverlay) lockedOverlay.style.display = 'none';
     if (unlockedPlayer) unlockedPlayer.style.display = 'block';
-    if (batchStatusLbl) batchStatusLbl.textContent = 'Live Session Active';
+    if (batchStatusLbl) batchStatusLbl.textContent = 'Batch #1 Complete — Stream Unlocked';
 
     // Enable Chat input
     if (chatInput) chatInput.removeAttribute('disabled');
@@ -565,51 +504,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (chatMessages) {
       chatMessages.innerHTML = '';
-      appendChatMessage(null, 'Live class feed active. Welcome to Batch #01!', true);
+      appendChatMessage(null, `✅ Welcome, ${studentName}! You now have access to the certified student channel.`, true);
     }
 
     // Start dynamic chat simulation
     startLiveChatSimulator();
   };
 
-  const updateCountdownClock = () => {
-    const now = new Date().getTime();
-    const distance = TARGET_UNLOCK_TIME - now;
+  /* --- Certificate Gate Button Handler --- */
+  const certGateInput = document.getElementById('cert-gate-input');
+  const certGateBtn = document.getElementById('cert-gate-btn');
+  const certGateError = document.getElementById('cert-gate-error');
 
-    if (distance <= 0) {
-      clearInterval(clockInterval);
-      unlockClassPortal();
+  const handleCertGate = () => {
+    if (!certGateInput) return;
+    const certIdRaw = certGateInput.value.trim();
+
+    // Show error if empty
+    if (!certIdRaw) {
+      if (certGateError) {
+        certGateError.textContent = 'Please enter your certificate number.';
+        certGateError.style.display = 'block';
+      }
       return;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    // Format check
+    const formatRegex = /^SPK-IOT-2026-01\/(\d+)$/i;
+    if (!certIdRaw.match(formatRegex)) {
+      if (certGateError) {
+        certGateError.textContent = 'Invalid format. Use: SPK-IOT-2026-01/100001';
+        certGateError.style.display = 'block';
+      }
+      return;
+    }
 
-    if (dayVal) dayVal.textContent = days.toString().padStart(2, '0');
-    if (hrVal) hrVal.textContent = hours.toString().padStart(2, '0');
-    if (minVal) minVal.textContent = minutes.toString().padStart(2, '0');
-    if (secVal) secVal.textContent = seconds.toString().padStart(2, '0');
+    // Look up in certificate database
+    const db = getCertificatesDB();
+    const uppercaseId = certIdRaw.toUpperCase();
+    const found = db.find(item => item.id.toUpperCase() === uppercaseId);
+
+    if (!found) {
+      if (certGateError) {
+        certGateError.textContent = 'Certificate not found. Please verify your ID or contact administration.';
+        certGateError.style.display = 'block';
+      }
+      return;
+    }
+
+    // Valid — unlock the portal
+    if (certGateError) certGateError.style.display = 'none';
+    unlockClassPortal(found.name);
   };
 
-  // Bind Send Button in Chat
-  if (chatSend && chatInput) {
-    const sendMessage = () => {
-      const msg = chatInput.value.trim();
-      if (!msg) return;
-      appendChatMessage('You', msg);
-      chatInput.value = '';
-
-      // Simulate instructor answer
-      setTimeout(() => {
-        appendChatMessage('Yogesh Mene (Trainer)', 'Excellent question! I will cover this in detail in 5 minutes.', false);
-      }, 1500);
-    };
-
-    chatSend.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendMessage();
+  if (certGateBtn) certGateBtn.addEventListener('click', handleCertGate);
+  if (certGateInput) {
+    certGateInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleCertGate();
+    });
+    // Hide error on input change
+    certGateInput.addEventListener('input', () => {
+      if (certGateError) certGateError.style.display = 'none';
     });
   }
 
@@ -1239,13 +1194,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (urgencyModal) {
       urgencyModal.style.display = 'none';
       document.body.style.overflow = '';
-      localStorage.setItem('sparktech-urgency-dismissed', 'true');
+      localStorage.setItem('sparktech-newbatch-dismissed', 'true');
     }
   };
 
   if (urgencyModal) {
     // Show modal after 2.5 seconds if not already dismissed
-    if (localStorage.getItem('sparktech-urgency-dismissed') !== 'true') {
+    if (localStorage.getItem('sparktech-newbatch-dismissed') !== 'true') {
       setTimeout(() => {
         urgencyModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -1258,12 +1213,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (urgencyActionBtn) {
       urgencyActionBtn.addEventListener('click', () => {
         closeUrgencyModal();
-        setTimeout(() => {
-          const registerSec = document.getElementById('register-section');
-          if (registerSec) {
-            registerSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 150);
       });
     }
 
@@ -1272,7 +1221,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Set Interval Timer loop
-  const clockInterval = setInterval(updateCountdownClock, 1000);
-  updateCountdownClock(); // initial evaluation
+  // Bind Send Button in Chat (available after cert gate unlock)
+  if (chatSend && chatInput) {
+    const sendMessage = () => {
+      const msg = chatInput.value.trim();
+      if (!msg) return;
+      appendChatMessage('You', msg);
+      chatInput.value = '';
+
+      // Simulate instructor answer
+      setTimeout(() => {
+        appendChatMessage('Yogesh Mene (Trainer)', 'Excellent question! Will cover this in the next session.', false);
+      }, 1500);
+    };
+
+    chatSend.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  }
 });
