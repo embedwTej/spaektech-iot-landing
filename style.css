@@ -3475,6 +3475,10 @@ body.no-banner .announcement-banner {
    Previous Session Recordings — Live Portal Sub-Section
    ===================================================== */
 
+.prev-sessions-section {
+  padding: 80px 0;
+}
+
 .prev-sessions-container {
   margin-top: 56px;
   padding-top: 48px;
