@@ -3689,6 +3689,36 @@ body.no-banner .announcement-banner {
   background: rgba(0, 240, 255, 0.05);
 }
 
+/* PDF Download Button */
+.session-pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Space Grotesk', monospace;
+  color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.session-pdf-btn:hover {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: rgba(0, 240, 255, 0.5);
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.session-pdf-btn svg {
+  flex-shrink: 0;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .prev-sessions-container {
